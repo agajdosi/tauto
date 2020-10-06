@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/agajdosi/twitter-storm-toolkit/register"
+	"github.com/agajdosi/twitter-storm-toolkit/pkg/register"
 	"github.com/spf13/cobra"
 )
 
