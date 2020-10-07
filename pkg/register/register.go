@@ -36,9 +36,11 @@ func Register() error {
 	chromedp.Run(*ctx,
 		chromedp.Navigate("https://twitter.com"),
 
+		// Click to sign up
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[2]/a[1]/div`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[2]/a[1]/div`, chromedp.BySearch),
 
+		// Screen 1 - input name, email and birth date
 		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/label/div/div[2]/div/input`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/label/div/div[2]/div/input`, name+" "+surname, chromedp.BySearch),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[4]/span`, chromedp.BySearch),
@@ -51,14 +53,14 @@ func Register() error {
 		chromedp.Sleep(time.Second*1),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
-		// Screen 2
+		// Screen 2 - allow marketing emails
 		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[1]/div[2]/input`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[1]/div[2]/input`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[2]/div[2]/input`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[3]/div[2]/input`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
-		// Screen 3
+		// Screen 3 -
 		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/div`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/div`, chromedp.BySearch),
 
@@ -70,27 +72,27 @@ func Register() error {
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
 		//skip profile picture
-		//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span
+		chromedp.WaitVisible(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
 		//skip bio
-		//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span
+		chromedp.WaitVisible(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
 		//skip interests
-		//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span
+		chromedp.WaitVisible(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
 		//skip follow suggestions
-		//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span
+		chromedp.WaitVisible(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
 		//skip notifications
-		//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div[2]/div
-
-		
+		chromedp.WaitVisible(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div[2]/div`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div[2]/div`, chromedp.BySearch),
 
 		chromedp.Sleep(time.Second*2000),
 	)
-
-	//#react-root > div > div > div > main > div > div > div > div:nth-child(1) > div.css-1dbjc4n.r-1kihuf0.r-17w48nw > a.css-4rbku5.css-18t94o4.css-1dbjc4n.r-urgr8i.r-42olwf.r-sdzlij.r-1phboty.r-rs99b7.r-1loqt21.r-1w2pmg.r-1ifxtd0.r-5prp13.r-1hw0jha.r-1ny4l3l.r-1fneopy.r-o7ynqc.r-6416eg.r-lrvibr > div
-	//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[2]/a[1]/div
 
 	chromedp.Cancel(*ctx)
 	chromedp.Cancel(*ctx2)

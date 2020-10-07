@@ -16,10 +16,13 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/agajdosi/twitter-storm-toolkit/pkg/twitter"
 	"github.com/spf13/cobra"
 )
+
+var username string
+var password string
+var tweet string
 
 // postCmd represents the post command
 var postCmd = &cobra.Command{
@@ -32,7 +35,8 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("post called")
+		user := twitter.NewUser(username, password)
+		user.Post(tweet)
 	},
 }
 
@@ -48,4 +52,12 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// postCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	postCmd.Flags().StringVar(&username, "username", "", "Username to be used to log into Twitter.")
+	postCmd.MarkFlagRequired("username")
+
+	postCmd.Flags().StringVar(&password, "password", "", "Password to be used to log into Twitter.")
+	postCmd.MarkFlagRequired("password")
+
+	postCmd.Flags().StringVar(&tweet, "tweet", "", "Tweet which will be tweeted.")
+	postCmd.MarkFlagRequired("tweet")
 }
