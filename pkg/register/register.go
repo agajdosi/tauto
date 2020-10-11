@@ -21,8 +21,8 @@ func Register() error {
 	year := strconv.Itoa(birthtime.Year())
 	password := identity.GeneratePassword(12)
 
-	ctx, _ := browser.CreateBrowser()
-	ctx2, _ := browser.CreateBrowser()
+	ctx, _ := browser.CreateBrowser("")
+	ctx2, _ := browser.CreateBrowser("")
 
 	chromedp.Run(*ctx2,
 		chromedp.Navigate("https://www.fakemail.net/"),

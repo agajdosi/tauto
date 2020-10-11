@@ -17,17 +17,19 @@ type user struct {
 
 // NewUser creates a new instance of user struct
 func NewUser(username, password string) user {
-	ctx, _ := browser.CreateBrowser()
+	fmt.Println(username)
+	ctx, _ := browser.CreateBrowser(username)
 
 	return user{username, password, ctx}
 }
 
 //Post sends a new tweet
 func (u user) Post(text string) error {
-	u.Login()
+	//u.Login()
 
-	fmt.Println(text)
 	err := chromedp.Run(*u.ctx,
+		chromedp.Navigate("https://twitter.com"),
+		chromedp.Sleep(time.Second*5),
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div[2]/div`, chromedp.BySearch),

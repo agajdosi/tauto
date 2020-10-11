@@ -8,13 +8,18 @@ import (
 )
 
 //CreateBrowser creates a new instance of browser - opens a new window.
-func CreateBrowser() (*context.Context, *context.CancelFunc) {
+func CreateBrowser(username string) (*context.Context, *context.CancelFunc) {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.DisableGPU,
 		chromedp.Flag("disable-extensions", false),
 		chromedp.Flag("headless", false),
-		//chromedp.UserDataDir("config"),
+		chromedp.Flag("disable-session-crashed-bubble", true),
 	)
+
+	if username != "" {
+		userDataDir := "profiles/" + username
+		opts = append(opts, chromedp.UserDataDir(userDataDir))
+	}
 
 	ctx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
 	ctx, cancel = chromedp.NewContext(ctx)
