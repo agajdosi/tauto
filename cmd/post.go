@@ -16,6 +16,9 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/twitter"
 	"github.com/spf13/cobra"
 )
@@ -36,7 +39,11 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		user := twitter.NewUser(username, password)
-		user.Post(tweet)
+		err := user.Post(tweet)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, err.Error())
+			os.Exit(1)
+		}
 	},
 }
 
