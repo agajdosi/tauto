@@ -1,4 +1,4 @@
-package register
+package twitter
 
 import (
 	"fmt"
