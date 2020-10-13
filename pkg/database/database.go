@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -100,4 +101,37 @@ func AddBot(username, password, platform string) error {
 	err = tx.Commit()
 
 	return err
+}
+
+//GetBot gets login information for the selected username.
+func GetBot(username string) (string, error) {
+	if username == "" {
+		return "", fmt.Errorf("username was not not provided")
+	}
+
+	location, err := Location()
+	if err != nil {
+		return "", err
+	}
+
+	db, err := sql.Open("sqlite3", location)
+	if err != nil {
+		return "", err
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare("select password from bots where username = ?")
+	if err != nil {
+		return "", err
+	}
+	defer stmt.Close()
+
+	var name string
+	err = stmt.QueryRow(username).Scan(&name)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(name)
+
+	return "", nil
 }

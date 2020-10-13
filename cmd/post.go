@@ -38,6 +38,11 @@ var postCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
+		password, err = database.GetBot(username)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		user := twitter.NewUser(username, password)
 		err = user.Post(tweet)
 		if err != nil {
@@ -58,11 +63,7 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// postCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	postCmd.Flags().StringVar(&username, "username", "", "Username to be used to log into Twitter.")
-	postCmd.MarkFlagRequired("username")
-
-	postCmd.Flags().StringVar(&password, "password", "", "Password to be used to log into Twitter.")
-	postCmd.MarkFlagRequired("password")
+	postCmd.Flags().StringVar(&username, "username", "", "Username to be used to log into Twitter. If username is not provided, the command will tweet from all available accounts.")
 
 	postCmd.Flags().StringVar(&tweet, "tweet", "", "Tweet which will be tweeted.")
 	postCmd.MarkFlagRequired("tweet")
