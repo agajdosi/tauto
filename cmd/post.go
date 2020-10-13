@@ -16,9 +16,9 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-	"os"
+	"log"
 
+	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/twitter"
 	"github.com/spf13/cobra"
 )
@@ -38,11 +38,15 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		user := twitter.NewUser(username, password)
-		err := user.Post(tweet)
+		err := database.EnsureExists()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, err.Error())
-			os.Exit(1)
+			log.Fatal(err)
+		}
+
+		user := twitter.NewUser(username, password)
+		err = user.Post(tweet)
+		if err != nil {
+			log.Fatal(err)
 		}
 	},
 }
