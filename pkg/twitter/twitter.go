@@ -23,27 +23,6 @@ func NewUser(username, password string) user {
 	return user{username, password, ctx}
 }
 
-//Post sends a new tweet
-func (u user) Post(text string) error {
-	err := u.Login()
-	if err != nil {
-		return err
-	}
-
-	err = chromedp.Run(*u.ctx,
-		chromedp.Navigate("https://twitter.com"),
-		chromedp.Sleep(time.Second*5),
-		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, chromedp.BySearch),
-		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, chromedp.BySearch),
-		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div[2]/div`, chromedp.BySearch),
-		chromedp.KeyEvent(text),
-		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div/div[2]/div[4]/div/div/div[2]/div[4]/div/span/span`, chromedp.BySearch),
-		chromedp.Sleep(2*time.Second),
-	)
-
-	return err
-}
-
 //Login logs user into the platform
 func (u user) Login() error {
 	logged, err := u.isLoggedIn()
@@ -80,4 +59,25 @@ func (u user) isLoggedIn() (bool, error) {
 	}
 
 	return true, err
+}
+
+//Post sends a new tweet
+func (u user) Post(text string) error {
+	err := u.Login()
+	if err != nil {
+		return err
+	}
+
+	err = chromedp.Run(*u.ctx,
+		chromedp.Navigate("https://twitter.com"),
+		chromedp.Sleep(time.Second*5),
+		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div[2]/div`, chromedp.BySearch),
+		chromedp.KeyEvent(text),
+		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div/div[2]/div[4]/div/div/div[2]/div[4]/div/span/span`, chromedp.BySearch),
+		chromedp.Sleep(2*time.Second),
+	)
+
+	return err
 }
