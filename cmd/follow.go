@@ -16,12 +16,15 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
+	"log"
+
+	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
+	"github.com/agajdosi/twitter-storm-toolkit/pkg/twitter"
 
 	"github.com/spf13/cobra"
 )
 
-var who string
+var who []string
 
 // followCmd represents the follow command
 var followCmd = &cobra.Command{
@@ -29,7 +32,16 @@ var followCmd = &cobra.Command{
 	Short: "Will follow a selected user on twitter.",
 	Long:  `Will follow a selected user on twitter.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("follow called")
+		err := database.EnsureExists()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		if username != "" {
+			followBySingle()
+		} else {
+			followByAll()
+		}
 	},
 }
 
@@ -47,6 +59,43 @@ func init() {
 	// followCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	followCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the account who will follow. When left empty it will use all usernames available in the database.")
 
-	followCmd.Flags().StringVarP(&who, "who", "w", "", "Which account to follow. Please enter a username of account to follow.")
+	followCmd.Flags().StringSliceVarP(&who, "who", "w", nil, "Which account's username(s) to follow. Can be a string or list of strings.")
 	followCmd.MarkFlagRequired("who")
+}
+
+func followByAll() error {
+	users, err := database.GetAllBots()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, user := range users {
+		u := twitter.NewUser(user.Username, user.Password)
+
+		for _, toFollow := range who {
+			err = u.Follow(toFollow)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+	}
+
+	return nil
+}
+
+func followBySingle() error {
+	password, err := database.GetBot(username)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	user := twitter.NewUser(username, password)
+	for _, toFollow := range who {
+		err = user.Follow(toFollow)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	return nil
 }

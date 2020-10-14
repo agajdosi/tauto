@@ -81,3 +81,25 @@ func (u user) Post(text string) error {
 
 	return err
 }
+
+//Follow will open and follow selected Twitter account.
+func (u user) Follow(who string) error {
+	fmt.Println("going to log in!")
+	err := u.Login()
+	if err != nil {
+		return err
+	}
+
+	//twitter handles both "username" and "@username" formats in the URL so we do not care about it
+	address := "https://twitter.com/" + who
+
+	err = chromedp.Run(*u.ctx,
+		chromedp.Navigate(address),
+		chromedp.Sleep(time.Second*4),
+		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/div[1]/div/div[1]/div/div[last()]/div/div`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/div[1]/div/div[1]/div/div[last()]/div/div`, chromedp.BySearch),
+		chromedp.Sleep(2*time.Second),
+	)
+
+	return err
+}
