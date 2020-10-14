@@ -10,6 +10,13 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+//User holds all the data for the single user
+type User struct {
+	Username string
+	Password string
+	Platform string
+}
+
 //EnsureExists ensures that DB exists. If not, it setups a new database.
 func EnsureExists() error {
 	loc, err := Location()
@@ -134,4 +141,50 @@ func GetBot(username string) (string, error) {
 	fmt.Println(name)
 
 	return "", nil
+}
+
+//GetAllBots gets login information of all bots from the database.
+func GetAllBots() ([]User, error) {
+	location, err := Location()
+	if err != nil {
+		return nil, err
+	}
+
+	db, err := sql.Open("sqlite3", location)
+	if err != nil {
+		return nil, err
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare("select username, password, platform from bots")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query()
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []User
+	for rows.Next() {
+		var username string
+		var password string
+		var platform string
+		err = rows.Scan(&username, &password, &platform)
+		if err != nil {
+			return nil, err
+		}
+		u := User{username, password, platform}
+		users = append(users, u)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		return users, err
+	}
+
+	return users, nil
 }

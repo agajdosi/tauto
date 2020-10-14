@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
@@ -66,7 +65,19 @@ func init() {
 }
 
 func postToAll() error {
-	fmt.Println("posting to all is not yet supported")
+	users, err := database.GetAllBots()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, user := range users {
+		u := twitter.NewUser(user.Username, user.Password)
+		err = u.Post(tweet)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
 	return nil
 }
 
