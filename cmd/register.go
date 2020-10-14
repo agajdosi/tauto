@@ -16,6 +16,8 @@ limitations under the License.
 package cmd
 
 import (
+	"log"
+
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/twitter"
 	"github.com/spf13/cobra"
 )
@@ -26,7 +28,10 @@ var registerCmd = &cobra.Command{
 	Short: "Registers new account on Twitter. (Needs manual cooperation.)",
 	Long:  `Registers new account on Twitter. (Needs manual cooperation.)`,
 	Run: func(cmd *cobra.Command, args []string) {
-		twitter.Register()
+		err := twitter.Register()
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 

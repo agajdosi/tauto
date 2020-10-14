@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
@@ -38,15 +39,10 @@ var postCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		password, err = database.GetBot(username)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		user := twitter.NewUser(username, password)
-		err = user.Post(tweet)
-		if err != nil {
-			log.Fatal(err)
+		if username != "" {
+			postToSingle()
+		} else {
+			postToAll()
 		}
 	},
 }
@@ -67,4 +63,24 @@ func init() {
 
 	postCmd.Flags().StringVar(&tweet, "tweet", "", "Tweet which will be tweeted.")
 	postCmd.MarkFlagRequired("tweet")
+}
+
+func postToAll() error {
+	fmt.Println("posting to all is not yet supported")
+	return nil
+}
+
+func postToSingle() error {
+	password, err := database.GetBot(username)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	user := twitter.NewUser(username, password)
+	err = user.Post(tweet)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return nil
 }
