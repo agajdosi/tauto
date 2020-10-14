@@ -53,9 +53,9 @@ func init() {
 	// is called directly, e.g.:
 	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	addCmd.Flags().StringVar(&username, "username", "", "Username to be used to log in the bot.")
+	addCmd.Flags().StringVarP(&username, "username", "u", "", "Username to be used to log in the bot.")
 	addCmd.MarkFlagRequired("username")
 
-	addCmd.Flags().StringVar(&password, "password", "", "Password to be used to log in the bot.")
+	addCmd.Flags().StringVarP(&password, "password", "p", "", "Password to be used to log in the bot.")
 	addCmd.MarkFlagRequired("password")
 }

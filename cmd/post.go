@@ -58,9 +58,9 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// postCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	postCmd.Flags().StringVar(&username, "username", "", "Username to be used to log into Twitter. If username is not provided, the command will tweet from all available accounts.")
+	postCmd.Flags().StringVarP(&username, "username", "u", "", "Username to be used to log into Twitter. If username is not provided, the command will tweet from all available accounts.")
 
-	postCmd.Flags().StringVar(&tweet, "tweet", "", "Tweet which will be tweeted.")
+	postCmd.Flags().StringVarP(&tweet, "tweet", "t", "", "Tweet which will be tweeted.")
 	postCmd.MarkFlagRequired("tweet")
 }
 

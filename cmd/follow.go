@@ -22,7 +22,6 @@ import (
 )
 
 var who string
-var username string
 
 // followCmd represents the follow command
 var followCmd = &cobra.Command{
