@@ -103,3 +103,17 @@ func (u user) Follow(who string) error {
 
 	return err
 }
+
+func (u user) Open() error {
+	err := u.Login()
+	if err != nil {
+		return err
+	}
+
+	err = chromedp.Run(*u.ctx,
+		chromedp.Navigate("https://twitter.com"),
+		chromedp.Sleep(time.Second*1000000000),
+	)
+
+	return err
+}
