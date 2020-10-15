@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
@@ -37,11 +38,7 @@ var followCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		if username != "" {
-			followBySingle()
-		} else {
-			followByAll()
-		}
+		follow()
 	},
 }
 
@@ -63,8 +60,8 @@ func init() {
 	followCmd.MarkFlagRequired("who")
 }
 
-func followByAll() error {
-	users, err := database.GetAllBots()
+func follow() error {
+	users, err := database.GetBots(username)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -75,25 +72,8 @@ func followByAll() error {
 		for _, toFollow := range who {
 			err = u.Follow(toFollow)
 			if err != nil {
-				log.Fatal(err)
+				fmt.Println(err)
 			}
-		}
-	}
-
-	return nil
-}
-
-func followBySingle() error {
-	password, err := database.GetBot(username)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	user := twitter.NewUser(username, password)
-	for _, toFollow := range who {
-		err = user.Follow(toFollow)
-		if err != nil {
-			log.Fatal(err)
 		}
 	}
 

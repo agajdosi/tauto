@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
@@ -38,11 +39,7 @@ var postCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		if username != "" {
-			postToSingle()
-		} else {
-			postToAll()
-		}
+		post()
 	},
 }
 
@@ -64,8 +61,8 @@ func init() {
 	postCmd.MarkFlagRequired("tweet")
 }
 
-func postToAll() error {
-	users, err := database.GetAllBots()
+func post() error {
+	users, err := database.GetBots(username)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -74,23 +71,8 @@ func postToAll() error {
 		u := twitter.NewUser(user.Username, user.Password)
 		err = u.Post(tweet)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
 		}
-	}
-
-	return nil
-}
-
-func postToSingle() error {
-	password, err := database.GetBot(username)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	user := twitter.NewUser(username, password)
-	err = user.Post(tweet)
-	if err != nil {
-		log.Fatal(err)
 	}
 
 	return nil

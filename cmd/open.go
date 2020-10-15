@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
@@ -29,15 +30,17 @@ var openCmd = &cobra.Command{
 	Short: "Opens single profile and leaves it for manual tweaks.",
 	Long:  `Opens single profile and leaves it for manual tweaks.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		password, err := database.GetBot(username)
+		users, err := database.GetBots(username)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		user := twitter.NewUser(username, password)
-		err = user.Open()
-		if err != nil {
-			log.Fatal(err)
+		for _, user := range users {
+			u := twitter.NewUser(user.Username, user.Password)
+			err = u.Open()
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 	},
 }
@@ -56,5 +59,4 @@ func init() {
 	// openCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 	openCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the account which will be opened.")
-	openCmd.MarkFlagRequired("username")
 }

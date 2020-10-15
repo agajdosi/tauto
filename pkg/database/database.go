@@ -2,7 +2,6 @@ package database
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -110,40 +109,8 @@ func AddBot(username, password, platform string) error {
 	return err
 }
 
-//GetBot gets login information for the selected username.
-func GetBot(username string) (string, error) {
-	if username == "" {
-		return "", fmt.Errorf("username was not not provided")
-	}
-
-	location, err := Location()
-	if err != nil {
-		return "", err
-	}
-
-	db, err := sql.Open("sqlite3", location)
-	if err != nil {
-		return "", err
-	}
-	defer db.Close()
-
-	stmt, err := db.Prepare("select password from bots where username = ?")
-	if err != nil {
-		return "", err
-	}
-	defer stmt.Close()
-
-	var pass string
-	err = stmt.QueryRow(username).Scan(&pass)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return pass, nil
-}
-
-//GetAllBots gets login information of all bots from the database.
-func GetAllBots() ([]User, error) {
+//GetBots gets login information of all bots from the database.
+func GetBots(username string) ([]User, error) {
 	location, err := Location()
 	if err != nil {
 		return nil, err
@@ -155,13 +122,24 @@ func GetAllBots() ([]User, error) {
 	}
 	defer db.Close()
 
-	stmt, err := db.Prepare("select username, password, platform from bots")
+	var stmt *sql.Stmt
+	if username != "" {
+		//ideally add support for multiple usernames
+		stmt, err = db.Prepare("select username, password, platform from bots where username = ?")
+	} else {
+		stmt, err = db.Prepare("select username, password, platform from bots")
+	}
 	if err != nil {
 		return nil, err
 	}
 	defer stmt.Close()
 
-	rows, err := stmt.Query()
+	var rows *sql.Rows
+	if username != "" {
+		rows, err = stmt.Query(username)
+	} else {
+		rows, err = stmt.Query()
+	}
 	if err != nil {
 		return nil, err
 	}
