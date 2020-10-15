@@ -104,6 +104,7 @@ func (u user) Follow(who string) error {
 	return err
 }
 
+//Open opens the profile and leaves it open for manual tweaks
 func (u user) Open() error {
 	err := u.Login()
 	if err != nil {
