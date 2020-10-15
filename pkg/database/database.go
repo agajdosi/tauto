@@ -133,14 +133,13 @@ func GetBot(username string) (string, error) {
 	}
 	defer stmt.Close()
 
-	var name string
-	err = stmt.QueryRow(username).Scan(&name)
+	var pass string
+	err = stmt.QueryRow(username).Scan(&pass)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(name)
 
-	return "", nil
+	return pass, nil
 }
 
 //GetAllBots gets login information of all bots from the database.

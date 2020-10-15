@@ -34,11 +34,11 @@ func (u user) Login() error {
 		return nil
 	}
 
-	fmt.Println("logging in!")
 	chromedp.Run(*u.ctx,
 		chromedp.Navigate("https://twitter.com"),
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[1]/div/label/div/div[2]/div/input`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[1]/div/label/div/div[2]/div/input`, u.username, chromedp.BySearch),
+		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[2]/div/label/div/div[2]/div/input`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[2]/div/label/div/div[2]/div/input`, u.password, chromedp.BySearch),
 		chromedp.Click(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[3]/div/div/span/span`, chromedp.BySearch),
 	)
