@@ -11,6 +11,7 @@ import (
 
 //User holds all the data for the single user
 type User struct {
+	ID       int
 	Username string
 	Password string
 	Platform string
@@ -46,7 +47,7 @@ func CreateDB(loc string) error {
 	defer db.Close()
 
 	cmd := `
-	create table bots (id integer not null primary key, username text unique, password text, platform text);
+	create table bots (id integer not null primary key, username text unique, password text, platform text, active integer);
 	delete from bots;
 	`
 	_, err = db.Exec(cmd)
@@ -76,40 +77,44 @@ func Location() (string, error) {
 }
 
 //AddBot adds a new bot into the database
-func AddBot(username, password, platform string) error {
+func AddBot(username, password, platform string) (int, error) {
 	location, err := Location()
 	if err != nil {
-		return err
+		return -1, err
 	}
 
 	db, err := sql.Open("sqlite3", location)
 	if err != nil {
-		return err
+		return -1, err
 	}
 	defer db.Close()
 
 	tx, err := db.Begin()
 	if err != nil {
-		return err
+		return -1, err
 	}
 
-	addCmd, err := tx.Prepare("insert into bots(username, password, platform) values(?, ?, ?)")
+	addCmd, err := tx.Prepare("insert into bots(username, password, platform, active) values(?, ?, ?, ?)")
 	if err != nil {
-		return err
+		return -1, err
 	}
 	defer addCmd.Close()
 
-	_, err = addCmd.Exec(username, password, platform)
+	result, err := addCmd.Exec(username, password, platform, 1)
 	if err != nil {
-		return err
+		return -1, err
+	}
+	err = tx.Commit()
+	if err != nil {
+		return -1, err
 	}
 
-	err = tx.Commit()
+	id, err := result.LastInsertId()
 
-	return err
+	return int(id), err
 }
 
-//GetBots gets login information of all bots from the database.
+//GetBots gets login information of all active bots from the database.
 func GetBots(username string) ([]User, error) {
 	location, err := Location()
 	if err != nil {
@@ -125,9 +130,9 @@ func GetBots(username string) ([]User, error) {
 	var stmt *sql.Stmt
 	if username != "" {
 		//ideally add support for multiple usernames
-		stmt, err = db.Prepare("select username, password, platform from bots where username = ?")
+		stmt, err = db.Prepare("select id, username, password, platform from bots where username = ? and active = 1")
 	} else {
-		stmt, err = db.Prepare("select username, password, platform from bots")
+		stmt, err = db.Prepare("select id, username, password, platform from bots where active = 1")
 	}
 	if err != nil {
 		return nil, err
@@ -147,14 +152,15 @@ func GetBots(username string) ([]User, error) {
 
 	var users []User
 	for rows.Next() {
+		var id int
 		var username string
 		var password string
 		var platform string
-		err = rows.Scan(&username, &password, &platform)
+		err = rows.Scan(&id, &username, &password, &platform)
 		if err != nil {
 			return nil, err
 		}
-		u := User{username, password, platform}
+		u := User{id, username, password, platform}
 		users = append(users, u)
 	}
 

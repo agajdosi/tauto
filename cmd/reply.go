@@ -75,7 +75,7 @@ func reply() error {
 	}
 
 	for _, user := range users {
-		u := twitter.NewUser(user.Username, user.Password)
+		u := twitter.NewUser(user.ID, user.Username, user.Password)
 
 		for _, w := range where {
 			err = u.Reply(tweet, w)

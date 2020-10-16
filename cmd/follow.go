@@ -67,7 +67,7 @@ func follow() error {
 	}
 
 	for _, user := range users {
-		u := twitter.NewUser(user.Username, user.Password)
+		u := twitter.NewUser(user.ID, user.Username, user.Password)
 
 		for _, toFollow := range who {
 			err = u.Follow(toFollow)

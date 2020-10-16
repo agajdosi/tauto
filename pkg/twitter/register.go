@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/identity"
 
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/browser"
@@ -20,8 +21,12 @@ func Register() error {
 	day := strconv.Itoa(birthtime.Day())
 	year := strconv.Itoa(birthtime.Year())
 	password := identity.GeneratePassword(12)
+	id, err := database.AddBot("", password, "twitter")
+	if err != nil {
+		return err
+	}
 
-	ctx, _ := browser.CreateBrowser("")
+	ctx, _ := browser.CreateBrowser("new-user")
 	ctx2, _ := browser.CreateBrowser("")
 
 	chromedp.Run(*ctx2,
@@ -31,7 +36,7 @@ func Register() error {
 		chromedp.Text(`#email`, &email, chromedp.ByQuery),
 	)
 
-	fmt.Println(name, surname, email, password)
+	fmt.Println(id, name, surname, email, password)
 
 	chromedp.Run(*ctx,
 		chromedp.Navigate("https://twitter.com"),
@@ -69,7 +74,8 @@ func Register() error {
 		// Screen 5 - inserts password
 		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/label/div/div[2]/div/input`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/label/div/div[2]/div/input`, password, chromedp.BySearch),
-		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
+		chromedp.Sleep(time.Second*2),
+		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div`, chromedp.BySearch),
 
 		//skip profile picture
 		chromedp.WaitVisible(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
@@ -93,6 +99,9 @@ func Register() error {
 
 		chromedp.Sleep(time.Second*2000),
 	)
+
+	// here we should get username and update it in the database
+	// and change the browser profile directory from "new-user" to actual username
 
 	chromedp.Cancel(*ctx)
 	chromedp.Cancel(*ctx2)

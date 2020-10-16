@@ -17,7 +17,7 @@ type user struct {
 }
 
 // NewUser creates a new instance of user struct
-func NewUser(username, password string) user {
+func NewUser(id int, username, password string) user {
 	ctx, _ := browser.CreateBrowser(username)
 
 	return user{username, password, ctx}
