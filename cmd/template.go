@@ -19,44 +19,45 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/twitter"
+	"github.com/agajdosi/twitter-storm-toolkit/pkg/template"
 	"github.com/spf13/cobra"
 )
 
-// openCmd represents the open command
-var openCmd = &cobra.Command{
-	Use:   "open",
-	Short: "Opens single profile and leaves it for manual tweaks.",
-	Long:  `Opens single profile and leaves it for manual tweaks.`,
+var templateArg string
+
+// templateCmd represents the template command
+var templateCmd = &cobra.Command{
+	Use:   "template",
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		users, err := database.GetBots(username, false)
+		tweet, err := template.Generate(templateArg)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		for _, user := range users {
-			u := twitter.NewUser(user.ID, user.Username, user.Password)
-			err = u.Open()
-			if err != nil {
-				fmt.Println(err)
-			}
-		}
+		fmt.Println(tweet)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(openCmd)
+	rootCmd.AddCommand(templateCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// openCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// templateCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// openCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// templateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	openCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the account which will be opened.")
+	templateCmd.Flags().StringVarP(&templateArg, "template", "t", "", "Template to generate.")
+	templateCmd.MarkFlagRequired("who")
 }

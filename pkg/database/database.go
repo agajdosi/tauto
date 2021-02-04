@@ -115,7 +115,7 @@ func AddBot(username, password, platform string) (int, error) {
 }
 
 //GetBots gets login information of all active bots from the database.
-func GetBots(username string) ([]User, error) {
+func GetBots(username string, active bool) ([]User, error) {
 	location, err := Location()
 	if err != nil {
 		return nil, err
@@ -128,12 +128,17 @@ func GetBots(username string) ([]User, error) {
 	defer db.Close()
 
 	var stmt *sql.Stmt
-	if username != "" {
+	if username != "" && active == true {
 		//ideally add support for multiple usernames
 		stmt, err = db.Prepare("select id, username, password, platform from bots where username = ? and active = 1")
-	} else {
+	} else if username != "" && active == false {
+		stmt, err = db.Prepare("select id, username, password, platform from bots where username = ?")
+	} else if username == "" && active == true {
 		stmt, err = db.Prepare("select id, username, password, platform from bots where active = 1")
+	} else {
+		stmt, err = db.Prepare("select id, username, password, platform from bots")
 	}
+
 	if err != nil {
 		return nil, err
 	}

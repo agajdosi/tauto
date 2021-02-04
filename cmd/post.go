@@ -62,7 +62,7 @@ func init() {
 }
 
 func post() error {
-	users, err := database.GetBots(username)
+	users, err := database.GetBots(username, true)
 	if err != nil {
 		log.Fatal(err)
 	}
