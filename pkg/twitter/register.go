@@ -3,6 +3,7 @@ package twitter
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
@@ -21,10 +22,9 @@ func Register() error {
 	day := strconv.Itoa(birthtime.Day())
 	year := strconv.Itoa(birthtime.Year())
 	password := identity.GeneratePassword(12)
-	id, err := database.AddBot("", password, "twitter")
-	if err != nil {
-		return err
-	}
+
+	var username string
+	var getUsernameOK bool
 
 	ctx, _ := browser.CreateBrowser("new-user")
 	ctx2, _ := browser.CreateBrowser("")
@@ -36,14 +36,14 @@ func Register() error {
 		chromedp.Text(`#email`, &email, chromedp.ByQuery),
 	)
 
-	fmt.Println(id, name, surname, email, password)
+	fmt.Println(name, surname, email, password)
 
 	chromedp.Run(*ctx,
 		chromedp.Navigate("https://twitter.com"),
 
 		// Click to sign up
-		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[2]/a[1]/div`, chromedp.BySearch),
-		chromedp.Click(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[2]/a[1]/div`, chromedp.BySearch),
+		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div/div[3]/a[1]`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div/div[3]/a[1]`, chromedp.BySearch),
 
 		// Screen 1 - input name, email and birth date
 		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/label/div/div[2]/div/input`, chromedp.BySearch),
@@ -51,9 +51,9 @@ func Register() error {
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[4]/span`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[3]/label/div/div[2]/div/input`, email, chromedp.BySearch),
 
-		chromedp.SendKeys(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[5]/div[3]/div/div[1]/div[2]/select`, month, chromedp.BySearch),
-		chromedp.SendKeys(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[5]/div[3]/div/div[2]/div[2]/select`, day, chromedp.BySearch),
-		chromedp.SendKeys(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[5]/div[3]/div/div[3]/div[2]/select`, year, chromedp.BySearch),
+		chromedp.SendKeys(`//*[@id="Month"]`, month, chromedp.BySearch),
+		chromedp.SendKeys(`//*[@id="Day"]`, day, chromedp.BySearch),
+		chromedp.SendKeys(`//*[@id="Year"]`, year, chromedp.BySearch),
 
 		chromedp.Sleep(time.Second*1),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
@@ -94,14 +94,26 @@ func Register() error {
 		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
 		//skip notifications
-		chromedp.WaitVisible(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div[2]/div`, chromedp.BySearch),
-		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/div[2]/div[2]/div`, chromedp.BySearch),
+		chromedp.WaitVisible(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div/div[2]/div[2]/div[2]`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div/div[2]/div[2]/div[2]`, chromedp.BySearch),
 
-		chromedp.Sleep(time.Second*2000),
+		//get username
+		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[2]/nav/a[7]`, chromedp.BySearch),
+		chromedp.AttributeValue(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[2]/nav/a[7]`, "href", &username, &getUsernameOK, chromedp.BySearch),
 	)
 
-	// here we should get username and update it in the database
-	// and change the browser profile directory from "new-user" to actual username
+	username = strings.TrimLeft(username, "/")
+	fmt.Printf("- registration OK, adding user %v into database... ", username)
+
+	id, err := database.AddBot(username, password, "twitter")
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("user successfuly added: ")
+	fmt.Printf("- %v %v %v %v %v %v\n\n", id, username, password, name, surname, email)
+
+	time.Sleep(2000 * time.Second)
 
 	chromedp.Cancel(*ctx)
 	chromedp.Cancel(*ctx2)

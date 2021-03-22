@@ -35,12 +35,15 @@ func (u user) Login() error {
 	}
 
 	chromedp.Run(*u.ctx,
-		chromedp.Navigate("https://twitter.com"),
-		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[1]/div/label/div/div[2]/div/input`, chromedp.BySearch),
-		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[1]/div/label/div/div[2]/div/input`, u.username, chromedp.BySearch),
-		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[2]/div/label/div/div[2]/div/input`, chromedp.BySearch),
-		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[2]/div/label/div/div[2]/div/input`, u.password, chromedp.BySearch),
-		chromedp.Click(`//*[@id="react-root"]/div/div/div/main/div/div/div/div[1]/div[1]/div/form/div/div[3]/div/div/span/span`, chromedp.BySearch),
+		chromedp.Navigate("https://twitter.com/login"),
+		//username
+		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, chromedp.BySearch),
+		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, u.username, chromedp.BySearch),
+		//password
+		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input`, chromedp.BySearch),
+		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input`, u.password, chromedp.BySearch),
+		//login button
+		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[3]/div/div`, chromedp.BySearch),
 	)
 
 	return nil
@@ -51,7 +54,7 @@ func (u user) isLoggedIn() (bool, error) {
 	err := chromedp.Run(*u.ctx,
 		chromedp.Navigate("https://twitter.com"),
 		chromedp.Sleep(time.Second*2),
-		chromedp.Nodes(`/html/body/div/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, &nodes, chromedp.AtLeast(0), chromedp.BySearch),
+		chromedp.Nodes(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[2]/nav/a[7]`, &nodes, chromedp.AtLeast(0), chromedp.BySearch),
 	)
 
 	if len(nodes) == 0 {
