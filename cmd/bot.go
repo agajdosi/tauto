@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
+Copyright © 2020 Andreas Gajdosik <andreas.gajdosik@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,7 +22,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// addCmd represents the add command
+var botCmd = &cobra.Command{
+	Use:   "bot",
+	Short: "manipulates bots",
+	Long:  `Manipulates bots.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		cmd.Help()
+	},
+}
+
 var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Adds a new bot into the database.",
@@ -40,22 +48,37 @@ var addCmd = &cobra.Command{
 	},
 }
 
+// TBD
+var removeCmd = &cobra.Command{
+	Use:   "remove",
+	Short: "TBD. Removes bot from the database.",
+	Long:  `TBD. Removes bot from the database.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		cmd.Help()
+	},
+}
+
+// TBD
+var listCmd = &cobra.Command{
+	Use:   "list",
+	Short: "TBD. Lists all bots in the database.",
+	Long:  `TBD. Lists all bots in the database.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		cmd.Help()
+	},
+}
+
 func init() {
-	rootCmd.AddCommand(addCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// addCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	botCmd.AddCommand(addCmd)
+	botCmd.AddCommand(listCmd)
+	botCmd.AddCommand(removeCmd)
+	rootCmd.AddCommand(botCmd)
 
 	addCmd.Flags().StringVarP(&username, "username", "u", "", "Username to be used to log in the bot.")
 	addCmd.MarkFlagRequired("username")
-
 	addCmd.Flags().StringVarP(&password, "password", "p", "", "Password to be used to log in the bot.")
 	addCmd.MarkFlagRequired("password")
+
+	removeCmd.Flags().StringVarP(&username, "username", "u", "", "Username of bot which is going to be removed.")
+	removeCmd.MarkFlagRequired("username")
 }

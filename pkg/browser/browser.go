@@ -2,6 +2,9 @@ package browser
 
 import (
 	"context"
+	"fmt"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/chromedp/chromedp"
@@ -16,8 +19,13 @@ func CreateBrowser(username string) (*context.Context, *context.CancelFunc) {
 		chromedp.Flag("disable-session-crashed-bubble", true),
 	)
 
+	configDir, err := Location()
+	if err != nil {
+		fmt.Println("Error finding the profiles directory.")
+	}
+
 	if username != "" {
-		userDataDir := "profiles/" + username
+		userDataDir := filepath.Join(configDir, username)
 		opts = append(opts, chromedp.UserDataDir(userDataDir))
 	}
 
@@ -26,4 +34,21 @@ func CreateBrowser(username string) (*context.Context, *context.CancelFunc) {
 	ctx, cancel = context.WithTimeout(ctx, 300*time.Second)
 
 	return &ctx, &cancel
+}
+
+//Location returns a location where profiles folders are located.
+func Location() (string, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+
+	configDir := filepath.Join(home, ".tst")
+	err = os.MkdirAll(configDir, 0700)
+	if err != nil {
+		return "", err
+	}
+
+	location := filepath.Join(configDir, "profiles")
+	return location, nil
 }
