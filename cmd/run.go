@@ -16,6 +16,8 @@ limitations under the License.
 package cmd
 
 import (
+	"log"
+
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/twitter"
 
@@ -34,8 +36,24 @@ var runCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(runCmd)
+	runCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the bot which will follow. When left empty it will use all bots available in the database.")
 }
 
 func likeAllies() {
-	twitter.GetTweets("nervcz")
+	allies, _ := database.GetOthers("", "ally")
+	bots, err := database.GetBots(username, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, bot := range bots {
+		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password)
+		for _, ally := range allies {
+			tweets := twitter.GetTweets(ally.Username)
+			for _, tweet := range tweets {
+				b.EnsureLiked(tweet)
+			}
+		}
+		cancel()
+	}
 }

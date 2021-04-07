@@ -10,22 +10,22 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-type user struct {
+type bot struct {
 	username string
 	password string
 	ctx      *context.Context
 }
 
 // NewUser creates a new instance of user struct
-func NewUser(id int, username, password string) user {
-	ctx, _ := browser.CreateBrowser(username)
+func NewUser(id int, username, password string) (bot, context.CancelFunc) {
+	ctx, cancel := browser.CreateBrowser(username)
 
-	return user{username, password, ctx}
+	return bot{username, password, ctx}, cancel
 }
 
 //Login logs user into the Twitter
-func (u user) Login() error {
-	logged, err := u.isLoggedIn()
+func (b bot) Login() error {
+	logged, err := b.isLoggedIn()
 	if err != nil {
 		return err
 	}
@@ -34,14 +34,14 @@ func (u user) Login() error {
 		return nil
 	}
 
-	chromedp.Run(*u.ctx,
+	chromedp.Run(*b.ctx,
 		chromedp.Navigate("https://twitter.com/login"),
 		//username
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, chromedp.BySearch),
-		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, u.username, chromedp.BySearch),
+		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, b.username, chromedp.BySearch),
 		//password
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input`, chromedp.BySearch),
-		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input`, u.password, chromedp.BySearch),
+		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input`, b.password, chromedp.BySearch),
 		//login button
 		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[3]/div/div`, chromedp.BySearch),
 	)
@@ -49,9 +49,9 @@ func (u user) Login() error {
 	return nil
 }
 
-func (u user) isLoggedIn() (bool, error) {
+func (b bot) isLoggedIn() (bool, error) {
 	var nodes []*cdp.Node
-	err := chromedp.Run(*u.ctx,
+	err := chromedp.Run(*b.ctx,
 		chromedp.Navigate("https://twitter.com"),
 		chromedp.Sleep(time.Second*2),
 		chromedp.Nodes(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[2]/nav/a[7]`, &nodes, chromedp.AtLeast(0), chromedp.BySearch),
@@ -65,13 +65,13 @@ func (u user) isLoggedIn() (bool, error) {
 }
 
 //Post sends a new tweet
-func (u user) Post(text string) error {
-	err := u.Login()
+func (b bot) Post(text string) error {
+	err := b.Login()
 	if err != nil {
 		return err
 	}
 
-	err = chromedp.Run(*u.ctx,
+	err = chromedp.Run(*b.ctx,
 		chromedp.Navigate("https://twitter.com"),
 		chromedp.Sleep(time.Second*5),
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, chromedp.BySearch),
@@ -86,9 +86,9 @@ func (u user) Post(text string) error {
 }
 
 //Follow will open and follow selected Twitter account.
-func (u user) Follow(who string) error {
+func (b bot) Follow(who string) error {
 	fmt.Println("going to log in!")
-	err := u.Login()
+	err := b.Login()
 	if err != nil {
 		return err
 	}
@@ -96,7 +96,7 @@ func (u user) Follow(who string) error {
 	//twitter handles both "username" and "@username" formats in the URL so we do not care about it
 	address := "https://twitter.com/" + who
 
-	err = chromedp.Run(*u.ctx,
+	err = chromedp.Run(*b.ctx,
 		chromedp.Navigate(address),
 		chromedp.Sleep(time.Second*4),
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/div[1]/div/div[1]/div/div[last()]/div/div`, chromedp.BySearch),
@@ -107,13 +107,13 @@ func (u user) Follow(who string) error {
 	return err
 }
 
-func (u user) Reply(tweet, where string) error {
-	err := u.Login()
+func (b bot) Reply(tweet, where string) error {
+	err := b.Login()
 	if err != nil {
 		return nil
 	}
 
-	err = chromedp.Run(*u.ctx,
+	err = chromedp.Run(*b.ctx,
 		chromedp.Navigate(where),
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/section/div/div/div[1]/div/div/article/div/div/div/div[3]/div[5]/div[1]/div/div/div/div`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/section/div/div/div[1]/div/div/article/div/div/div/div[3]/div[5]/div[1]/div/div/div/div`, chromedp.BySearch),
@@ -127,13 +127,13 @@ func (u user) Reply(tweet, where string) error {
 }
 
 //Open opens the profile and leaves it open for manual tweaks
-func (u user) Open() error {
-	err := u.Login()
+func (b bot) Open() error {
+	err := b.Login()
 	if err != nil {
 		return err
 	}
 
-	err = chromedp.Run(*u.ctx,
+	err = chromedp.Run(*b.ctx,
 		chromedp.Navigate("https://twitter.com"),
 		chromedp.Sleep(time.Second*1000000000),
 	)

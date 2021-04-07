@@ -60,7 +60,7 @@ func reply() error {
 	}
 
 	for _, user := range users {
-		u := twitter.NewUser(user.ID, user.Username, user.Password)
+		u, cancel := twitter.NewUser(user.ID, user.Username, user.Password)
 
 		for _, w := range where {
 			err = u.Reply(tweet, w)
@@ -68,6 +68,7 @@ func reply() error {
 				fmt.Println(err)
 			}
 		}
+		cancel()
 	}
 
 	return nil

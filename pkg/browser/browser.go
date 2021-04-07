@@ -11,7 +11,7 @@ import (
 )
 
 //CreateBrowser creates a new instance of browser - opens a new window.
-func CreateBrowser(username string) (*context.Context, *context.CancelFunc) {
+func CreateBrowser(username string) (*context.Context, context.CancelFunc) {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.DisableGPU,
 		chromedp.Flag("disable-extensions", false),
@@ -33,7 +33,7 @@ func CreateBrowser(username string) (*context.Context, *context.CancelFunc) {
 	ctx, cancel = chromedp.NewContext(ctx)
 	ctx, cancel = context.WithTimeout(ctx, 300*time.Second)
 
-	return &ctx, &cancel
+	return &ctx, cancel
 }
 
 //Location returns a location where profiles folders are located.

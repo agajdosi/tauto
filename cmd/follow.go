@@ -53,14 +53,14 @@ func follow() error {
 	}
 
 	for _, user := range users {
-		u := twitter.NewUser(user.ID, user.Username, user.Password)
-
+		u, cancel := twitter.NewUser(user.ID, user.Username, user.Password)
 		for _, toFollow := range who {
 			err = u.Follow(toFollow)
 			if err != nil {
 				fmt.Println(err)
 			}
 		}
+		cancel()
 	}
 
 	return nil

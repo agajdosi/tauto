@@ -103,14 +103,14 @@ func Register() error {
 	)
 
 	username = strings.TrimLeft(username, "/")
-	fmt.Printf("- registration OK, adding user %v into database... ", username)
+	fmt.Printf("- registration OK, adding bot %v into database... ", username)
 
 	id, err := database.AddBot(username, password)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("user successfuly added: ")
+	fmt.Println("bot successfuly added: ")
 	fmt.Printf("- %v %v %v %v %v %v\n\n", id, username, password, name, surname, email)
 
 	time.Sleep(2000 * time.Second)
