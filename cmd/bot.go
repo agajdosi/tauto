@@ -24,17 +24,17 @@ import (
 
 var botCmd = &cobra.Command{
 	Use:   "bot",
-	Short: "manipulates bots",
-	Long:  `Manipulates bots.`,
+	Short: "Manipulates bot accounts.",
+	Long:  `Manipulates bot accounts. Bots are our Twitter accounts which we automatically use to spread negative or positive messages.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
 	},
 }
 
-var addCmd = &cobra.Command{
+var botAddCmd = &cobra.Command{
 	Use:   "add",
-	Short: "Adds a new bot into the database.",
-	Long:  `Adds a new bot into the database.`,
+	Short: "Adds a new bot account into the database.",
+	Long:  `Adds a new bot account into the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := database.EnsureExists()
 		if err != nil {
@@ -49,36 +49,36 @@ var addCmd = &cobra.Command{
 }
 
 // TBD
-var removeCmd = &cobra.Command{
+var botRemoveCmd = &cobra.Command{
 	Use:   "remove",
-	Short: "TBD. Removes bot from the database.",
-	Long:  `TBD. Removes bot from the database.`,
+	Short: "TBD. Removes bot account from the database.",
+	Long:  `TBD. Removes bot account from the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
 	},
 }
 
 // TBD
-var listCmd = &cobra.Command{
+var botListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "TBD. Lists all bots in the database.",
-	Long:  `TBD. Lists all bots in the database.`,
+	Short: "TBD. Lists all bot accounts in the database.",
+	Long:  `TBD. Lists all bot accounts in the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
 	},
 }
 
 func init() {
-	botCmd.AddCommand(addCmd)
-	botCmd.AddCommand(listCmd)
-	botCmd.AddCommand(removeCmd)
+	botCmd.AddCommand(botAddCmd)
+	botCmd.AddCommand(botListCmd)
+	botCmd.AddCommand(botRemoveCmd)
 	rootCmd.AddCommand(botCmd)
 
-	addCmd.Flags().StringVarP(&username, "username", "u", "", "Username to be used to log in the bot.")
-	addCmd.MarkFlagRequired("username")
-	addCmd.Flags().StringVarP(&password, "password", "p", "", "Password to be used to log in the bot.")
-	addCmd.MarkFlagRequired("password")
+	botAddCmd.Flags().StringVarP(&username, "username", "u", "", "Username to be used to log in the bot account.")
+	botAddCmd.MarkFlagRequired("username")
+	botAddCmd.Flags().StringVarP(&password, "password", "p", "", "Password to be used to log in the bot account.")
+	botAddCmd.MarkFlagRequired("password")
 
-	removeCmd.Flags().StringVarP(&username, "username", "u", "", "Username of bot which is going to be removed.")
-	removeCmd.MarkFlagRequired("username")
+	botRemoveCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the bot account which is going to be removed.")
+	botRemoveCmd.MarkFlagRequired("username")
 }
