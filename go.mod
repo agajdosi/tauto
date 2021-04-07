@@ -8,6 +8,7 @@ require (
 	github.com/lucasjones/reggen v0.0.0-20200904144131-37ba4fa293bb
 	github.com/mattn/go-sqlite3 v1.14.4
 	github.com/mitchellh/go-homedir v1.1.0
+	github.com/n0madic/twitter-scraper v0.0.0-20210331121551-b23ecad9c6ed
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/viper v1.7.1
 )
