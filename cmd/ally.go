@@ -16,26 +16,35 @@ limitations under the License.
 package cmd
 
 import (
+	"log"
+
+	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
 	"github.com/spf13/cobra"
 )
 
-// TBD
 var allyCmd = &cobra.Command{
 	Use:   "ally",
-	Short: "TBD. Manipulates allied accounts.",
-	Long:  `TBD. Manipulates allied accounts. Allies are Twitter accounts which you want want to support. Their posts gonna be retweeted, liked or commented positively.`,
+	Short: "Manipulates allied accounts.",
+	Long:  `Manipulates allied accounts. Allies are Twitter accounts which you want want to support. Their posts gonna be retweeted, liked or commented positively.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
 	},
 }
 
-// TBD
 var allyAddCmd = &cobra.Command{
 	Use:   "add",
-	Short: "TBD. Adds a new allied account into the database.",
-	Long:  `TBD. Adds a new allied account the database.`,
+	Short: "Adds a new allied account into the database.",
+	Long:  `Adds a new allied account the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		err := database.EnsureExists()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		_, err = database.AddOther(username, "ally")
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 

@@ -105,7 +105,7 @@ func Register() error {
 	username = strings.TrimLeft(username, "/")
 	fmt.Printf("- registration OK, adding user %v into database... ", username)
 
-	id, err := database.AddBot(username, password, "twitter")
+	id, err := database.AddBot(username, password)
 	if err != nil {
 		return err
 	}

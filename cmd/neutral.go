@@ -16,26 +16,35 @@ limitations under the License.
 package cmd
 
 import (
+	"log"
+
+	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
 	"github.com/spf13/cobra"
 )
 
-// TBD
 var neutralCmd = &cobra.Command{
 	Use:   "neutral",
-	Short: "TBD. Manipulates available neutral accounts.",
-	Long:  `TBD. Manipulates available neutral accounts. Neutrals are Twitter accounts which we take as neutral sources of information - like news sources. Their posts gonna be sometimes retweeted, liked or commented. Its purpose is to fake that our bots are normal persons.`,
+	Short: "Manipulates available neutral accounts.",
+	Long:  `Manipulates available neutral accounts. Neutrals are Twitter accounts which we take as neutral sources of information - like news sources. Their posts gonna be sometimes retweeted, liked or commented. Its purpose is to fake that our bots are normal persons.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
 	},
 }
 
-// TBD
 var neutralAddCmd = &cobra.Command{
 	Use:   "add",
-	Short: "TBD. Adds a new neutral account into the database.",
-	Long:  `TBD. Adds a new neutral account into the database.`,
+	Short: "Adds a new neutral account into the database.",
+	Long:  `Adds a new neutral account into the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		err := database.EnsureExists()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		_, err = database.AddOther(username, "neutral")
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 

@@ -41,7 +41,7 @@ var botAddCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		_, err = database.AddBot(username, password, "twitter")
+		_, err = database.AddBot(username, password)
 		if err != nil {
 			log.Fatal(err)
 		}

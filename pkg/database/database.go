@@ -14,7 +14,6 @@ type User struct {
 	ID       int
 	Username string
 	Password string
-	Platform string
 }
 
 //EnsureExists ensures that DB exists. If not, it setups a new database.
@@ -47,8 +46,10 @@ func CreateDB(loc string) error {
 	defer db.Close()
 
 	cmd := `
-	create table bots (id integer not null primary key, username text unique, password text, platform text, active integer);
+	create table bots (id integer not null primary key, username text unique, password text, active integer);
 	delete from bots;
+	create table others (id integer not null primary key, username text unique, status text, active integer);
+	delete from others;
 	`
 	_, err = db.Exec(cmd)
 	if err != nil {
@@ -74,105 +75,4 @@ func Location() (string, error) {
 
 	location := filepath.Join(configDir, "tst.db")
 	return location, nil
-}
-
-//AddBot adds a new bot into the database
-func AddBot(username, password, platform string) (int, error) {
-	location, err := Location()
-	if err != nil {
-		return -1, err
-	}
-
-	db, err := sql.Open("sqlite3", location)
-	if err != nil {
-		return -1, err
-	}
-	defer db.Close()
-
-	tx, err := db.Begin()
-	if err != nil {
-		return -1, err
-	}
-
-	addCmd, err := tx.Prepare("insert into bots(username, password, platform, active) values(?, ?, ?, ?)")
-	if err != nil {
-		return -1, err
-	}
-	defer addCmd.Close()
-
-	result, err := addCmd.Exec(username, password, platform, 1)
-	if err != nil {
-		return -1, err
-	}
-	err = tx.Commit()
-	if err != nil {
-		return -1, err
-	}
-
-	id, err := result.LastInsertId()
-
-	return int(id), err
-}
-
-//GetBots gets login information of all active bots from the database.
-func GetBots(username string, active bool) ([]User, error) {
-	location, err := Location()
-	if err != nil {
-		return nil, err
-	}
-
-	db, err := sql.Open("sqlite3", location)
-	if err != nil {
-		return nil, err
-	}
-	defer db.Close()
-
-	var stmt *sql.Stmt
-	if username != "" && active == true {
-		//ideally add support for multiple usernames
-		stmt, err = db.Prepare("select id, username, password, platform from bots where username = ? and active = 1")
-	} else if username != "" && active == false {
-		stmt, err = db.Prepare("select id, username, password, platform from bots where username = ?")
-	} else if username == "" && active == true {
-		stmt, err = db.Prepare("select id, username, password, platform from bots where active = 1")
-	} else {
-		stmt, err = db.Prepare("select id, username, password, platform from bots")
-	}
-
-	if err != nil {
-		return nil, err
-	}
-	defer stmt.Close()
-
-	var rows *sql.Rows
-	if username != "" {
-		rows, err = stmt.Query(username)
-	} else {
-		rows, err = stmt.Query()
-	}
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var users []User
-	for rows.Next() {
-		var id int
-		var username string
-		var password string
-		var platform string
-		err = rows.Scan(&id, &username, &password, &platform)
-		if err != nil {
-			return nil, err
-		}
-		u := User{id, username, password, platform}
-		users = append(users, u)
-	}
-
-	err = rows.Err()
-	if err != nil {
-		return users, err
-	}
-
-	return users, nil
 }

@@ -23,7 +23,7 @@ func NewUser(id int, username, password string) user {
 	return user{username, password, ctx}
 }
 
-//Login logs user into the platform
+//Login logs user into the Twitter
 func (u user) Login() error {
 	logged, err := u.isLoggedIn()
 	if err != nil {
