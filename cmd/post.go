@@ -34,11 +34,7 @@ var postCmd = &cobra.Command{
 	Short: "Posts a new tweet on Twitter.",
 	Long:  `Posts a new tweet on Twitter.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := database.EnsureExists()
-		if err != nil {
-			log.Fatal(err)
-		}
-
+		database.EnsureExists()
 		post()
 	},
 }

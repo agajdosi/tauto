@@ -36,12 +36,9 @@ var botAddCmd = &cobra.Command{
 	Short: "Adds a new bot account into the database.",
 	Long:  `Adds a new bot account into the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := database.EnsureExists()
-		if err != nil {
-			log.Fatal(err)
-		}
+		database.EnsureExists()
 
-		_, err = database.AddBot(username, password)
+		_, err := database.AddBot(username, password)
 		if err != nil {
 			log.Fatal(err)
 		}

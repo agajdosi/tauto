@@ -36,12 +36,9 @@ var allyAddCmd = &cobra.Command{
 	Short: "Adds a new allied account into the database.",
 	Long:  `Adds a new allied account the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := database.EnsureExists()
-		if err != nil {
-			log.Fatal(err)
-		}
+		database.EnsureExists()
 
-		_, err = database.AddOther(username, "ally")
+		_, err := database.AddOther(username, "ally")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -58,13 +55,13 @@ var allyRemoveCmd = &cobra.Command{
 	},
 }
 
-// TBD
 var allyListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "TBD. Lists all allied accounts in the database.",
-	Long:  `TBD. Lists all allied accounts in the database.`,
+	Short: "Lists all allied accounts in the database.",
+	Long:  `Lists all allied accounts in the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		database.EnsureExists()
+		database.ListOthers("ally")
 	},
 }
 

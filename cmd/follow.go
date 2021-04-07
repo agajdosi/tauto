@@ -33,11 +33,7 @@ var followCmd = &cobra.Command{
 	Short: "Will follow a selected user on twitter.",
 	Long:  `Will follow a selected user on twitter.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := database.EnsureExists()
-		if err != nil {
-			log.Fatal(err)
-		}
-
+		database.EnsureExists()
 		follow()
 	},
 }

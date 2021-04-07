@@ -10,24 +10,24 @@ import (
 )
 
 //EnsureExists ensures that DB exists. If not, it setups a new database.
-func EnsureExists() error {
+func EnsureExists() {
 	loc, err := Location()
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 
 	_, err = os.Stat(loc)
 	if err == nil {
-		return nil
+		return
 	} else if os.IsNotExist(err) {
 		err = CreateDB(loc)
 		if err != nil {
-			return err
+			log.Fatal(err)
 		}
-		return nil
+		return
 	}
 
-	return err
+	return
 }
 
 //CreateDB creates a new database and sets all the needed tables.

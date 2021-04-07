@@ -36,12 +36,9 @@ var neutralAddCmd = &cobra.Command{
 	Short: "Adds a new neutral account into the database.",
 	Long:  `Adds a new neutral account into the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := database.EnsureExists()
-		if err != nil {
-			log.Fatal(err)
-		}
+		database.EnsureExists()
 
-		_, err = database.AddOther(username, "neutral")
+		_, err := database.AddOther(username, "neutral")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -58,13 +55,13 @@ var neutralRemoveCmd = &cobra.Command{
 	},
 }
 
-// TBD
 var neutralListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "TBD. Lists all neutrals in the database.",
-	Long:  `TBD. Lists all neutrals in the database.`,
+	Short: "Lists all neutrals in the database.",
+	Long:  `Lists all neutrals in the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		database.EnsureExists()
+		database.ListOthers("neutral")
 	},
 }
 

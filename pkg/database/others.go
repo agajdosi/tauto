@@ -2,6 +2,8 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
+	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -78,10 +80,10 @@ func GetOthers(username, status string) ([]Other, error) {
 	defer stmt.Close()
 
 	var rows *sql.Rows
-	if username != "" {
-		rows, err = stmt.Query(username)
+	if username == "" {
+		rows, err = stmt.Query(status)
 	} else {
-		rows, err = stmt.Query()
+		rows, err = stmt.Query(username, status)
 	}
 	if err != nil {
 		return nil, err
@@ -107,4 +109,25 @@ func GetOthers(username, status string) ([]Other, error) {
 	}
 
 	return others, nil
+}
+
+//ListOthers lists all others which have specified status (ally, neutral, enemy)
+func ListOthers(status string) error {
+	others, err := GetOthers("", status)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	if len(others) == 0 {
+		fmt.Printf("There aren't any %v accounts.", status)
+		return nil
+	}
+
+	fmt.Printf("Available %v accounts are:\n", status)
+	for _, user := range others {
+		fmt.Println(user.ID, user.Username)
+	}
+
+	return nil
 }
