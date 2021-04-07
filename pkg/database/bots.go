@@ -6,6 +6,13 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+//Bot holds all the data for the single bot
+type Bot struct {
+	ID       int
+	Username string
+	Password string
+}
+
 //AddBot adds a new bot into the database
 func AddBot(username, password string) (int, error) {
 	location, err := Location()
@@ -45,7 +52,7 @@ func AddBot(username, password string) (int, error) {
 }
 
 //GetBots gets login information of all active bots from the database.
-func GetBots(username string, active bool) ([]User, error) {
+func GetBots(username string, onlyActive bool) ([]Bot, error) {
 	location, err := Location()
 	if err != nil {
 		return nil, err
@@ -58,12 +65,12 @@ func GetBots(username string, active bool) ([]User, error) {
 	defer db.Close()
 
 	var stmt *sql.Stmt
-	if username != "" && active == true {
+	if username != "" && onlyActive == true {
 		//ideally add support for multiple usernames
 		stmt, err = db.Prepare("select id, username, password from bots where username = ? and active = 1")
-	} else if username != "" && active == false {
+	} else if username != "" && onlyActive == false {
 		stmt, err = db.Prepare("select id, username, password from bots where username = ?")
-	} else if username == "" && active == true {
+	} else if username == "" && onlyActive == true {
 		stmt, err = db.Prepare("select id, username, password from bots where active = 1")
 	} else {
 		stmt, err = db.Prepare("select id, username, password from bots")
@@ -85,7 +92,7 @@ func GetBots(username string, active bool) ([]User, error) {
 	}
 	defer rows.Close()
 
-	var users []User
+	var bots []Bot
 	for rows.Next() {
 		var id int
 		var username string
@@ -94,14 +101,14 @@ func GetBots(username string, active bool) ([]User, error) {
 		if err != nil {
 			return nil, err
 		}
-		u := User{id, username, password}
-		users = append(users, u)
+		b := Bot{id, username, password}
+		bots = append(bots, b)
 	}
 
 	err = rows.Err()
 	if err != nil {
-		return users, err
+		return bots, err
 	}
 
-	return users, nil
+	return bots, nil
 }
