@@ -9,13 +9,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-//User holds all the data for the single user
-type User struct {
-	ID       int
-	Username string
-	Password string
-}
-
 //EnsureExists ensures that DB exists. If not, it setups a new database.
 func EnsureExists() error {
 	loc, err := Location()
