@@ -26,7 +26,6 @@ import (
 
 var where []string
 
-// replyCmd represents the reply command
 var replyCmd = &cobra.Command{
 	Use:   "reply",
 	Short: "A brief description of your command",
@@ -44,16 +43,6 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(replyCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// replyCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// replyCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 	replyCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the account who will reply. When left empty it will use all usernames available in the database.")
 

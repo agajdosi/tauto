@@ -27,7 +27,6 @@ import (
 
 var who []string
 
-// followCmd represents the follow command
 var followCmd = &cobra.Command{
 	Use:   "follow",
 	Short: "Will follow a selected user on twitter.",
@@ -41,15 +40,6 @@ var followCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(followCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// followCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// followCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	followCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the account who will follow. When left empty it will use all usernames available in the database.")
 
 	followCmd.Flags().StringSliceVarP(&who, "who", "w", nil, "Which account's username(s) to follow. Can be a string or list of strings.")

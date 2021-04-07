@@ -28,7 +28,6 @@ var username string
 var password string
 var tweet string
 
-// postCmd represents the post command
 var postCmd = &cobra.Command{
 	Use:   "post",
 	Short: "Posts a new tweet on Twitter.",
@@ -42,15 +41,6 @@ var postCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(postCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// postCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// postCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	postCmd.Flags().StringVarP(&username, "username", "u", "", "Username to be used to log into Twitter. If username is not provided, the command will tweet from all available accounts.")
 
 	postCmd.Flags().StringVarP(&tweet, "tweet", "t", "", "Tweet which will be tweeted.")
