@@ -55,13 +55,13 @@ var botRemoveCmd = &cobra.Command{
 	},
 }
 
-// TBD
 var botListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "TBD. Lists all bot accounts in the database.",
-	Long:  `TBD. Lists all bot accounts in the database.`,
+	Short: "Lists all bot accounts in the database.",
+	Long:  `Lists all bot accounts in the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		database.EnsureExists()
+		database.ListBots()
 	},
 }
 

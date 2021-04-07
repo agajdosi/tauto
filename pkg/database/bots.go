@@ -2,6 +2,8 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
+	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -111,4 +113,25 @@ func GetBots(username string, onlyActive bool) ([]Bot, error) {
 	}
 
 	return bots, nil
+}
+
+//ListBots lists all bots
+func ListBots() error {
+	bots, err := GetBots("", true)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	if len(bots) == 0 {
+		fmt.Println("There aren't any bots in database.")
+		return nil
+	}
+
+	fmt.Println("Available bot accounts are:")
+	for _, bot := range bots {
+		fmt.Println(bot.ID, bot.Username, bot.Password)
+	}
+
+	return nil
 }
