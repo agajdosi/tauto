@@ -17,8 +17,8 @@ type bot struct {
 }
 
 // NewUser creates a new instance of user struct
-func NewUser(id int, username, password string) (bot, context.CancelFunc) {
-	ctx, cancel := browser.CreateBrowser(username)
+func NewUser(id int, username, password string, timeout int) (bot, context.CancelFunc) {
+	ctx, cancel := browser.CreateBrowser(username, timeout)
 
 	return bot{username, password, ctx}, cancel
 }

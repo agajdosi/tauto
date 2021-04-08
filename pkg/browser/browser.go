@@ -11,7 +11,7 @@ import (
 )
 
 //CreateBrowser creates a new instance of browser - opens a new window.
-func CreateBrowser(username string) (*context.Context, context.CancelFunc) {
+func CreateBrowser(username string, timeout int) (*context.Context, context.CancelFunc) {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.DisableGPU,
 		chromedp.Flag("disable-extensions", false),
@@ -31,7 +31,7 @@ func CreateBrowser(username string) (*context.Context, context.CancelFunc) {
 
 	ctx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
 	ctx, cancel = chromedp.NewContext(ctx)
-	ctx, cancel = context.WithTimeout(ctx, 300*time.Second)
+	ctx, cancel = context.WithTimeout(ctx, time.Duration(timeout)*time.Second)
 
 	return &ctx, cancel
 }

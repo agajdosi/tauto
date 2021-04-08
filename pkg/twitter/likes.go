@@ -40,6 +40,7 @@ func (b bot) EnsureLiked(tweetURL string) {
 		return
 	}
 
+	time.Sleep(5 * time.Second)
 	err = chromedp.Run(*b.ctx,
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/section/div/div/div[*]/div/div[1]/article/div/div/div/div[3]/div[*]/div[3]/div`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/section/div/div/div[*]/div/div[1]/article/div/div/div/div[3]/div[*]/div[3]/div`, chromedp.BySearch),

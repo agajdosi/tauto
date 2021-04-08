@@ -26,8 +26,8 @@ func Register() error {
 	var username string
 	var getUsernameOK bool
 
-	ctx, _ := browser.CreateBrowser("new-user")
-	ctx2, _ := browser.CreateBrowser("")
+	ctx, _ := browser.CreateBrowser("new-user", 600)
+	ctx2, _ := browser.CreateBrowser("", 600)
 
 	chromedp.Run(*ctx2,
 		chromedp.Navigate("https://www.fakemail.net/"),

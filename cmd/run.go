@@ -47,7 +47,7 @@ func likeAllies() {
 	}
 
 	for _, bot := range bots {
-		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password)
+		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 6000)
 		for _, ally := range allies {
 			tweets := twitter.GetTweets(ally.Username)
 			for _, tweet := range tweets {

@@ -54,7 +54,7 @@ func post() error {
 	}
 
 	for _, user := range users {
-		u, cancel := twitter.NewUser(user.ID, user.Username, user.Password)
+		u, cancel := twitter.NewUser(user.ID, user.Username, user.Password, 300)
 		err = u.Post(tweet)
 		if err != nil {
 			fmt.Println(err)
