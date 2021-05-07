@@ -2,6 +2,7 @@ package twitter
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 
 	"github.com/chromedp/chromedp"
@@ -50,5 +51,13 @@ func (b bot) EnsureLiked(tweetURL string) {
 	}
 
 	time.Sleep(5 * time.Second)
+	return
+}
+
+//MaybeLike likes the post with chance of 0.0-1.0.
+func (b bot) MaybeLike(tweetURL string, chance float32) {
+	if chance > rand.Float32() {
+		b.EnsureRetweeted(tweetURL)
+	}
 	return
 }

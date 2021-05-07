@@ -30,7 +30,7 @@ var runCmd = &cobra.Command{
 	Long:  `Run the TST: love allies, checkout neutrals, hate enemies.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		database.EnsureExists()
-		likeAllies()
+		supportAllies()
 	},
 }
 
@@ -39,7 +39,7 @@ func init() {
 	runCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the bot which will follow. When left empty it will use all bots available in the database.")
 }
 
-func likeAllies() {
+func supportAllies() {
 	allies, _ := database.GetOthers("", "ally")
 	bots, err := database.GetBots(username, true)
 	if err != nil {
@@ -51,7 +51,8 @@ func likeAllies() {
 		for _, ally := range allies {
 			tweets := twitter.GetTweets(ally.Username)
 			for _, tweet := range tweets {
-				b.EnsureLiked(tweet)
+				b.MaybeLike(tweet, 1)
+				b.MaybeRetweet(tweet, 0.4)
 			}
 		}
 		cancel()
