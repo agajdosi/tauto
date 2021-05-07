@@ -16,9 +16,13 @@ limitations under the License.
 package main
 
 import (
+	"math/rand"
+	"time"
+
 	"github.com/agajdosi/twitter-storm-toolkit/cmd"
 )
 
 func main() {
+	rand.Seed(time.Now().UTC().UnixNano())
 	cmd.Execute()
 }

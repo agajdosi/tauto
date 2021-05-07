@@ -72,7 +72,6 @@ func handleAllies(b twitter.Bot, allies []database.Other) {
 func handleNeutrals(b twitter.Bot, neutrals []database.Other) {
 	for _, neutral := range neutrals {
 		tweets := twitter.GetTweets(neutral.Username)
-		fmt.Println(tweets)
 		for _, tweet := range tweets {
 			b.MaybeLike(tweet, 0.1)
 			b.MaybeRetweet(tweet, 0.2)
