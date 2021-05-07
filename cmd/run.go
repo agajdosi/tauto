@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
@@ -30,7 +31,7 @@ var runCmd = &cobra.Command{
 	Long:  `Run the TST: love allies, checkout neutrals, hate enemies.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		database.EnsureExists()
-		supportAllies()
+		handleBots()
 	},
 }
 
@@ -39,8 +40,11 @@ func init() {
 	runCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the bot which will follow. When left empty it will use all bots available in the database.")
 }
 
-func supportAllies() {
+func handleBots() {
 	allies, _ := database.GetOthers("", "ally")
+	neutrals, _ := database.GetOthers("", "neutral")
+	//enemies, _ := database.GetOthers("", "enemy")
+
 	bots, err := database.GetBots(username, true)
 	if err != nil {
 		log.Fatal(err)
@@ -48,13 +52,40 @@ func supportAllies() {
 
 	for _, bot := range bots {
 		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 6000)
-		for _, ally := range allies {
-			tweets := twitter.GetTweets(ally.Username)
-			for _, tweet := range tweets {
-				b.MaybeLike(tweet, 1)
-				b.MaybeRetweet(tweet, 0.4)
-			}
-		}
+		handleNeutrals(b, neutrals)
+		handleAllies(b, allies)
+		//handleEnemies(b, enemies)
 		cancel()
+	}
+}
+
+func handleAllies(b twitter.Bot, allies []database.Other) {
+	for _, ally := range allies {
+		tweets := twitter.GetTweets(ally.Username)
+		for _, tweet := range tweets {
+			b.MaybeLike(tweet, 1)
+			b.MaybeRetweet(tweet, 1)
+		}
+	}
+}
+
+func handleNeutrals(b twitter.Bot, neutrals []database.Other) {
+	for _, neutral := range neutrals {
+		tweets := twitter.GetTweets(neutral.Username)
+		fmt.Println(tweets)
+		for _, tweet := range tweets {
+			b.MaybeLike(tweet, 0.1)
+			b.MaybeRetweet(tweet, 0.2)
+		}
+	}
+}
+
+func handleEnemies(b twitter.Bot, enemies []database.Other) {
+	for _, enemy := range enemies {
+		tweets := twitter.GetTweets(enemy.Username)
+		for _, tweet := range tweets {
+			fmt.Print(tweet)
+			return
+		}
 	}
 }

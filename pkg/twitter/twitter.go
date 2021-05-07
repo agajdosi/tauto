@@ -10,21 +10,21 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-type bot struct {
+type Bot struct {
 	username string
 	password string
 	ctx      *context.Context
 }
 
 // NewUser creates a new instance of user struct
-func NewUser(id int, username, password string, timeout int) (bot, context.CancelFunc) {
+func NewUser(id int, username, password string, timeout int) (Bot, context.CancelFunc) {
 	ctx, cancel := browser.CreateBrowser(username, timeout)
 
-	return bot{username, password, ctx}, cancel
+	return Bot{username, password, ctx}, cancel
 }
 
 //Login logs user into the Twitter
-func (b bot) Login() error {
+func (b Bot) Login() error {
 	logged, err := b.isLoggedIn()
 	if err != nil {
 		return err
@@ -49,7 +49,7 @@ func (b bot) Login() error {
 	return nil
 }
 
-func (b bot) isLoggedIn() (bool, error) {
+func (b Bot) isLoggedIn() (bool, error) {
 	var nodes []*cdp.Node
 	err := chromedp.Run(*b.ctx,
 		chromedp.Navigate("https://twitter.com"),
@@ -65,7 +65,7 @@ func (b bot) isLoggedIn() (bool, error) {
 }
 
 //Post sends a new tweet
-func (b bot) Post(text string) error {
+func (b Bot) Post(text string) error {
 	err := b.Login()
 	if err != nil {
 		return err
@@ -86,7 +86,7 @@ func (b bot) Post(text string) error {
 }
 
 //Follow will open and follow selected Twitter account.
-func (b bot) Follow(who string) error {
+func (b Bot) Follow(who string) error {
 	fmt.Println("going to log in!")
 	err := b.Login()
 	if err != nil {
@@ -107,7 +107,7 @@ func (b bot) Follow(who string) error {
 	return err
 }
 
-func (b bot) Reply(tweet, where string) error {
+func (b Bot) Reply(tweet, where string) error {
 	err := b.Login()
 	if err != nil {
 		return nil
@@ -127,7 +127,7 @@ func (b bot) Reply(tweet, where string) error {
 }
 
 //Open opens the profile and leaves it open for manual tweaks
-func (b bot) Open() error {
+func (b Bot) Open() error {
 	err := b.Login()
 	if err != nil {
 		return err
