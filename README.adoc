@@ -1,0 +1,112 @@
+# TAUTO: Twitter Automation Toolkit
+
+Tauto is a command line tool to automate interactions of bot accounts on Twitter via Twitter's graphical user interface (website in browser).
+Tauto is thus capable of interactions which are not available through Twitter API or which could be blocked if used in high volumes via API.
+
+## Supported actions
+
+Tauto is currently capable of following interactions:
+
+* liking
+* retweets
+
+## Installation
+
+Coming soon.
+
+## How to use
+
+### Bots
+
+#### Add a bot
+
+First you need to add at least 1 bot account, for example:
+
+```
+tauto bot add --username justanormalusername --password accountssecretpassword
+```
+
+And thats it!
+You can add more accounts by running the command again, again and again...
+
+Please note that you can also use "real" accounts, for example your personal account to automate it to support your allies and dis your enemies.
+
+#### List bots
+
+To list all available bots you have, you can run:
+
+```
+tauto bot list
+```
+
+#### Remove bot
+
+TBD.
+
+### Allies
+
+Allies are Twitter acounts which you want to support with your bot army!
+Tauto will like-all and retweet-some of new tweets of allies.
+And it will do it with every bot you have!
+
+#### Add an ally
+
+To add an allied account, you can run:
+
+```
+tauto ally add --username SenSanders
+```
+
+#### List allies
+
+To list all available allies you support, you can run:
+
+```
+tauto ally list
+```
+
+#### Remove ally
+
+TBD.
+
+### Neutrals
+
+Neutrals are Twitter accounts which are informative and you want to use them just as source of (relatively) neutral information to make your bots look more like a real person.
+
+#### Add neutrals
+
+To add new neutral account, you can run:
+
+```
+tauto neutral add --username bbc
+```
+
+#### List neutrals
+
+To list all available allies you support, you can run:
+
+```
+tauto ally list
+```
+
+#### Remove neutral
+
+TBD.
+
+
+### Enemies
+
+You can add and list enemies, but interactions with them are currently not implemented.
+But it is coming really, really, really soon!
+
+### Run the interactions
+
+To start the interactions of all your bots with all allies, neutrals and enemies on Twitter, you can simply run the following command:
+
+```
+tauto run
+```
+
+It will open a browser and log in your first bot.
+Then it will scroll through latest tweets of all your allies, neutrals and enemies and will interact with them automatically.
+Time to get a cup of tea or just go out while `tauto` automatically fights the cultural war for you!
