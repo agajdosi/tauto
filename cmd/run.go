@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
@@ -41,9 +40,9 @@ func init() {
 }
 
 func handleBots() {
-	allies, _ := database.GetOthers("", "ally")
-	neutrals, _ := database.GetOthers("", "neutral")
-	//enemies, _ := database.GetOthers("", "enemy")
+	//allies, _ := database.GetOthers("", "ally")
+	//neutrals, _ := database.GetOthers("", "neutral")
+	enemies, _ := database.GetOthers("", "enemy")
 
 	bots, err := database.GetBots(username, true)
 	if err != nil {
@@ -52,9 +51,9 @@ func handleBots() {
 
 	for _, bot := range bots {
 		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 6000)
-		handleNeutrals(b, neutrals)
-		handleAllies(b, allies)
-		//handleEnemies(b, enemies)
+		//handleNeutrals(b, neutrals)
+		//handleAllies(b, allies)
+		handleEnemies(b, enemies)
 		cancel()
 	}
 }
@@ -62,9 +61,9 @@ func handleBots() {
 func handleAllies(b twitter.Bot, allies []database.Other) {
 	for _, ally := range allies {
 		tweets := twitter.GetTweets(ally.Username)
-		for _, tweet := range tweets {
-			b.MaybeLike(tweet, 1)
-			b.MaybeRetweet(tweet, 1)
+		for tweet := range tweets {
+			b.MaybeLike(tweet.PermanentURL, 1)
+			b.MaybeRetweet(tweet.PermanentURL, 1)
 		}
 	}
 }
@@ -72,9 +71,9 @@ func handleAllies(b twitter.Bot, allies []database.Other) {
 func handleNeutrals(b twitter.Bot, neutrals []database.Other) {
 	for _, neutral := range neutrals {
 		tweets := twitter.GetTweets(neutral.Username)
-		for _, tweet := range tweets {
-			b.MaybeLike(tweet, 0.1)
-			b.MaybeRetweet(tweet, 0.2)
+		for tweet := range tweets {
+			b.MaybeLike(tweet.PermanentURL, 0.1)
+			b.MaybeRetweet(tweet.PermanentURL, 0.2)
 		}
 	}
 }
@@ -82,9 +81,16 @@ func handleNeutrals(b twitter.Bot, neutrals []database.Other) {
 func handleEnemies(b twitter.Bot, enemies []database.Other) {
 	for _, enemy := range enemies {
 		tweets := twitter.GetTweets(enemy.Username)
-		for _, tweet := range tweets {
-			fmt.Print(tweet)
-			return
+		for tweet := range tweets {
+			if tweet.IsRetweet && !tweet.IsQuoted {
+				continue
+			}
+
+			if tweet.IsReply {
+				continue
+			}
+
+			b.TrollComment(tweet.PermanentURL, b.Username)
 		}
 	}
 }

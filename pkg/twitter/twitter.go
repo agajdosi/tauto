@@ -11,7 +11,7 @@ import (
 )
 
 type Bot struct {
-	username string
+	Username string
 	password string
 	ctx      *context.Context
 }
@@ -38,7 +38,7 @@ func (b Bot) Login() error {
 		chromedp.Navigate("https://twitter.com/login"),
 		//username
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, chromedp.BySearch),
-		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, b.username, chromedp.BySearch),
+		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, b.Username, chromedp.BySearch),
 		//password
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input`, b.password, chromedp.BySearch),

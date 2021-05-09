@@ -6,18 +6,12 @@ import (
 	twitterscraper "github.com/n0madic/twitter-scraper"
 )
 
-func GetTweets(username string) []string {
+func GetTweets(username string) <-chan *twitterscraper.Result {
 	scraper := twitterscraper.New()
 	scraper.SetSearchMode(twitterscraper.SearchLatest)
 	scraper.WithReplies(true)
 
-	var tweets []string
-	for tweet := range scraper.GetTweets(context.Background(), username, 5) {
-		if tweet.Error != nil {
-			panic(tweet.Error)
-		}
-		tweets = append(tweets, tweet.PermanentURL)
-	}
+	tweets := scraper.GetTweets(context.Background(), username, 5)
 
 	return tweets
 }
