@@ -124,7 +124,7 @@ func ListBots() error {
 	}
 
 	if len(bots) == 0 {
-		fmt.Println("There aren't any bots in database.")
+		fmt.Println("There aren't any bots in the database.")
 		return nil
 	}
 

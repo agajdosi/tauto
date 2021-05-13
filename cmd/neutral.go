@@ -45,13 +45,15 @@ var neutralAddCmd = &cobra.Command{
 	},
 }
 
-// TBD
 var neutralRemoveCmd = &cobra.Command{
 	Use:   "remove",
-	Short: "TBD. Removes neutral account from the database.",
-	Long:  `TBD. Removes neutral account from the database.`,
+	Short: "Removes neutral account from the database.",
+	Long:  `Removes neutral account from the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		err := database.DeleteOther(username, "neutral")
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 

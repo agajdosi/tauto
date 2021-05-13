@@ -45,13 +45,15 @@ var enemyAddCmd = &cobra.Command{
 	},
 }
 
-// TBD
 var enemyRemoveCmd = &cobra.Command{
 	Use:   "remove",
-	Short: "TBD. Removes enemy account from the database.",
-	Long:  `TBD. Removes enemy account from the database.`,
+	Short: "Removes enemy account from the database.",
+	Long:  `Removes enemy account from the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		err := database.DeleteOther(username, "enemy")
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 

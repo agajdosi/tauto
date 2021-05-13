@@ -45,13 +45,15 @@ var allyAddCmd = &cobra.Command{
 	},
 }
 
-// TBD
 var allyRemoveCmd = &cobra.Command{
 	Use:   "remove",
-	Short: "TBD. Removes allied account from the database.",
-	Long:  `TBD. Removes allied account from the database.`,
+	Short: "Removes allied account from the database.",
+	Long:  `Removes allied account from the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		err := database.DeleteOther(username, "ally")
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 

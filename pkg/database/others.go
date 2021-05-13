@@ -131,3 +131,29 @@ func ListOthers(status string) error {
 
 	return nil
 }
+
+//DeleteOther deletes account of others from the database.
+func DeleteOther(otherName, status string) error {
+	location, err := Location()
+	if err != nil {
+		return err
+	}
+
+	db, err := sql.Open("sqlite3", location)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare("DELETE FROM others WHERE username = ? AND status = ?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(otherName, status)
+	deleted, _ := result.RowsAffected()
+	fmt.Printf("%v accounts deleted: %v\n", status, deleted)
+
+	return err
+}
