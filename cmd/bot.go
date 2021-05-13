@@ -37,7 +37,6 @@ var botAddCmd = &cobra.Command{
 	Long:  `Adds a new bot account into the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		database.EnsureExists()
-
 		_, err := database.AddBot(username, password)
 		if err != nil {
 			log.Fatal(err)
@@ -45,13 +44,16 @@ var botAddCmd = &cobra.Command{
 	},
 }
 
-// TBD
 var botRemoveCmd = &cobra.Command{
 	Use:   "remove",
-	Short: "TBD. Removes bot account from the database.",
-	Long:  `TBD. Removes bot account from the database.`,
+	Short: "Removes bot account from the database.",
+	Long:  `Removes bot account from the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
+		database.EnsureExists()
+		err := database.DeleteBot(username)
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 
@@ -61,7 +63,10 @@ var botListCmd = &cobra.Command{
 	Long:  `Lists all bot accounts in the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		database.EnsureExists()
-		database.ListBots()
+		err := database.ListBots()
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 

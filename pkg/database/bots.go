@@ -135,3 +135,29 @@ func ListBots() error {
 
 	return nil
 }
+
+//DeleteBot deletes a bot from the database.
+func DeleteBot(botName string) error {
+	location, err := Location()
+	if err != nil {
+		return err
+	}
+
+	db, err := sql.Open("sqlite3", location)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare("DELETE FROM bots WHERE username = ?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(botName)
+	deleted, _ := result.RowsAffected()
+	fmt.Printf("Bots deleted: %v\n", deleted)
+
+	return err
+}
