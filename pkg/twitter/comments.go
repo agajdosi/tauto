@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/generate"
+	"github.com/agajdosi/tauto/pkg/generate"
 	"github.com/chromedp/cdproto/cdp"
 	"github.com/chromedp/chromedp"
 )

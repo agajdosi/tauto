@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/template"
+	"github.com/agajdosi/tauto/pkg/template"
 	"github.com/spf13/cobra"
 )
 

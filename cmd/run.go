@@ -18,8 +18,8 @@ package cmd
 import (
 	"log"
 
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/twitter"
+	"github.com/agajdosi/tauto/pkg/database"
+	"github.com/agajdosi/tauto/pkg/twitter"
 
 	"github.com/spf13/cobra"
 )

@@ -19,7 +19,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/agajdosi/twitter-storm-toolkit/cmd"
+	"github.com/agajdosi/tauto/cmd"
 )
 
 func main() {

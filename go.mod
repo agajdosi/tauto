@@ -1,4 +1,4 @@
-module github.com/agajdosi/twitter-storm-toolkit
+module github.com/agajdosi/tauto
 
 go 1.14
 

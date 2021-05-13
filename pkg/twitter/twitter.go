@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/browser"
+	"github.com/agajdosi/tauto/pkg/browser"
 	"github.com/chromedp/cdproto/cdp"
 	"github.com/chromedp/chromedp"
 )

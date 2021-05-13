@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/database"
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/identity"
+	"github.com/agajdosi/tauto/pkg/database"
+	"github.com/agajdosi/tauto/pkg/identity"
 
-	"github.com/agajdosi/twitter-storm-toolkit/pkg/browser"
+	"github.com/agajdosi/tauto/pkg/browser"
 	"github.com/chromedp/chromedp"
 )
 
