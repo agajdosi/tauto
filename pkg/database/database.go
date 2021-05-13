@@ -60,12 +60,12 @@ func Location() (string, error) {
 		return "", err
 	}
 
-	configDir := filepath.Join(home, ".tst")
+	configDir := filepath.Join(home, ".tauto")
 	err = os.MkdirAll(configDir, 0700)
 	if err != nil {
 		return "", err
 	}
 
-	location := filepath.Join(configDir, "tst.db")
+	location := filepath.Join(configDir, "tauto.db")
 	return location, nil
 }
