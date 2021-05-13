@@ -29,9 +29,9 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "tst",
-	Short: "TST is a CLI tool for automation of actions on Twitter.",
-	Long:  `TST is a CLI tool for automation of actions on Twitter.`,
+	Use:   "tauto",
+	Short: "Tauto is a CLI tool for automation of actions on Twitter.",
+	Long:  `Tauto is a CLI tool for automation of actions on Twitter.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },

@@ -43,7 +43,7 @@ func Location() (string, error) {
 		return "", err
 	}
 
-	configDir := filepath.Join(home, ".tst")
+	configDir := filepath.Join(home, ".tauto")
 	err = os.MkdirAll(configDir, 0700)
 	if err != nil {
 		return "", err
