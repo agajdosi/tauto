@@ -11,8 +11,7 @@ const followButton = `//*[@data-testid="%v-unfollow" or @data-testid="%v-follow"
 
 //Follow will open and follow selected Twitter account.
 func (b Bot) Follow(who string) error {
-	//twitter handles both "username" and "@username" formats in the URL so we do not care about it
-	address := "https://twitter.com/" + who
+	address := "https://twitter.com/" + who //twitter handles both "username" and "@username" formats in the URL so we do not care about it
 
 	err := chromedp.Run(*b.ctx,
 		chromedp.Navigate(address),
@@ -25,6 +24,13 @@ func (b Bot) Follow(who string) error {
 	return err
 }
 
+//TBD
+//Unfollow will open and unfollow selected Twitter account.
+func (b Bot) Unfollow(who string) error {
+	return nil
+}
+
+//IsFollowed checks whether user is followed by a bot
 func (b Bot) IsFollowed(who string) (bool, error) {
 	var isFollowing string
 	var ok bool
@@ -49,6 +55,7 @@ func (b Bot) IsFollowed(who string) (bool, error) {
 	return false, err
 }
 
+//EnsureFollowed makes shure, the profile is followed by the bot
 func (b Bot) EnsureFollowed(who string) error {
 	isFollowing, err := b.IsFollowed(who)
 	if err != nil {
@@ -60,4 +67,16 @@ func (b Bot) EnsureFollowed(who string) error {
 	}
 
 	return err
+}
+
+//TBD
+//IsFollowing checks whether the user follows the bot
+func (b Bot) IsFollowing(who string) (bool, error) {
+	return true, nil
+}
+
+//TBD
+//EnsureFollowingReciprocity makes shure makes shure the bot only follows those who follows the bot
+func (b Bot) EnsureFollowingReciprocity(who string) error {
+	return nil
 }
