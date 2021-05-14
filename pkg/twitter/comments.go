@@ -63,8 +63,14 @@ func (b Bot) EnsureCommented(tweetURL, nick, text string) {
 	return
 }
 
+//Reply makes sure that the bot replied to the tweet with the text
+func (b Bot) Reply(tweetURL, nick, text string) {
+	b.EnsureCommented(tweetURL, strings.TrimLeft(nick, "@"), text)
+	return
+}
+
 //TrollComment makes sure that the bot reacts to the tweet with some trolly comment
-func (b Bot) TrollComment(tweetURL, nick string) {
+func (b Bot) TrollReply(tweetURL, nick string) {
 	text := generate.StupidQuestion()
 	b.EnsureCommented(tweetURL, strings.TrimLeft(nick, "@"), text)
 	return

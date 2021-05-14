@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/agajdosi/tauto/pkg/database"
@@ -54,19 +53,16 @@ func init() {
 }
 
 func reply() error {
-	users, err := database.GetBots(username, true)
+	bots, err := database.GetBots(username, true)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, user := range users {
-		u, cancel := twitter.NewUser(user.ID, user.Username, user.Password, 300)
+	for _, bot := range bots {
+		u, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 300)
 
 		for _, w := range where {
-			err = u.Reply(tweet, w)
-			if err != nil {
-				fmt.Println(err)
-			}
+			u.Reply(w, bot.Username, tweet)
 		}
 		cancel()
 	}

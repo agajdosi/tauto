@@ -90,7 +90,7 @@ func handleEnemies(b twitter.Bot, enemies []database.Other) {
 				continue
 			}
 
-			b.TrollComment(tweet.PermanentURL, b.Username)
+			b.TrollReply(tweet.PermanentURL, b.Username)
 		}
 	}
 }

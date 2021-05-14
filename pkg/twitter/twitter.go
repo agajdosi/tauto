@@ -107,25 +107,6 @@ func (b Bot) Follow(who string) error {
 	return err
 }
 
-func (b Bot) Reply(tweet, where string) error {
-	err := b.Login()
-	if err != nil {
-		return nil
-	}
-
-	err = chromedp.Run(*b.ctx,
-		chromedp.Navigate(where),
-		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/section/div/div/div[1]/div/div/article/div/div/div/div[3]/div[5]/div[1]/div/div/div/div`, chromedp.BySearch),
-		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/section/div/div/div[1]/div/div/article/div/div/div/div[3]/div[5]/div[1]/div/div/div/div`, chromedp.BySearch),
-		chromedp.WaitVisible(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[2]/div/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div/div/div`, chromedp.BySearch),
-		chromedp.KeyEvent(tweet),
-		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[2]/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/span/span`, chromedp.BySearch),
-		chromedp.Sleep(time.Second*10000000),
-	)
-
-	return err
-}
-
 //Open opens the profile and leaves it open for manual tweaks
 func (b Bot) Open() error {
 	err := b.Login()
