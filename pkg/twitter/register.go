@@ -26,8 +26,8 @@ func Register() error {
 	var username string
 	var getUsernameOK bool
 
-	ctx, _ := browser.CreateBrowser("new-user", 600)
-	ctx2, _ := browser.CreateBrowser("", 600)
+	ctx, _ := browser.CreateBrowser("new-user", 6000)
+	ctx2, _ := browser.CreateBrowser("", 6000)
 
 	chromedp.Run(*ctx2,
 		chromedp.Navigate("https://www.fakemail.net/"),
@@ -58,19 +58,24 @@ func Register() error {
 		chromedp.Sleep(time.Second*1),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
-		// Screen 2 - allow marketing emails
-		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[1]/div[2]/input`, chromedp.BySearch),
-		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[1]/div[2]/input`, chromedp.BySearch),
-		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[2]/div[2]/input`, chromedp.BySearch),
-		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[3]/div[2]/input`, chromedp.BySearch),
+		// Screen 2 - Customize your Experience
+		//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span
+		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[1]/label/div/div/input`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[1]/label/div/div/input`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[2]/label/div/div/input`, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/label[3]/label/div/div/input`, chromedp.BySearch),
+		chromedp.Sleep(time.Second*2),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[1]/div/div/div/div[3]/div/div/span/span`, chromedp.BySearch),
 
-		// Screen 3 -
+		// Screen 3 - Signup
 		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/div`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/div`, chromedp.BySearch),
+	)
 
-		// Screen 4 - paste vericode manually
+	// Screen 4 - Enter verification code
+	fmt.Println("!!! PLEASE ENTER THE VERIFICATION CODE MANUALLY !!!")
 
+	chromedp.Run(*ctx,
 		// Screen 5 - inserts password
 		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/label/div/div[2]/div/input`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/div/label/div/div[2]/div/input`, password, chromedp.BySearch),
