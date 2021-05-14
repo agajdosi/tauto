@@ -15,3 +15,10 @@ func GetTweets(username string) <-chan *twitterscraper.Result {
 
 	return tweets
 }
+
+func GetUserID(username string) (string, error) {
+	scraper := twitterscraper.New()
+	profile, err := scraper.GetProfile(username)
+
+	return profile.UserID, err
+}

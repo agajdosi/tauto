@@ -2,7 +2,6 @@ package twitter
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/agajdosi/tauto/pkg/browser"
@@ -79,28 +78,6 @@ func (b Bot) Post(text string) error {
 		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div[2]/div`, chromedp.BySearch),
 		chromedp.KeyEvent(text),
 		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div/div[2]/div[4]/div/div/div[2]/div[4]/div/span/span`, chromedp.BySearch),
-		chromedp.Sleep(2*time.Second),
-	)
-
-	return err
-}
-
-//Follow will open and follow selected Twitter account.
-func (b Bot) Follow(who string) error {
-	fmt.Println("going to log in!")
-	err := b.Login()
-	if err != nil {
-		return err
-	}
-
-	//twitter handles both "username" and "@username" formats in the URL so we do not care about it
-	address := "https://twitter.com/" + who
-
-	err = chromedp.Run(*b.ctx,
-		chromedp.Navigate(address),
-		chromedp.Sleep(time.Second*4),
-		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/div[1]/div/div[1]/div/div[last()]/div/div`, chromedp.BySearch),
-		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/div/div[1]/div/div[1]/div/div[last()]/div/div`, chromedp.BySearch),
 		chromedp.Sleep(2*time.Second),
 	)
 
