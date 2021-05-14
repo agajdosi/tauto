@@ -17,9 +17,8 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 
-	"github.com/agajdosi/tauto/pkg/template"
+	"github.com/agajdosi/tauto/pkg/generate"
 	"github.com/spf13/cobra"
 )
 
@@ -35,12 +34,10 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		tweet, err := template.Generate(templateArg)
-		if err != nil {
-			log.Fatal(err)
+		for i := 0; i < 20; i++ {
+			tweet := generate.FromTemplate(templateArg)
+			fmt.Println(tweet)
 		}
-
-		fmt.Println(tweet)
 	},
 }
 

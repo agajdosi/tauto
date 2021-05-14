@@ -1,21 +1,23 @@
 package generate
 
 import (
+	"fmt"
+	"log"
 	"math/rand"
 
 	"github.com/lucasjones/reggen"
+	"github.com/spf13/viper"
 )
 
-func StupidQuestion() string {
-	templates := []string{
-		"To nemyslíte (fakt |doopravdy |skutečně |)vážně, (panebože |ježiši |kristepane ||||)že ne\\?(|||!)",
-		"Myslíte to (opravdu |skutečně |)vážně\\?(|||!)",
-		"(To|Tohlencto|Todle|Tohle|Toto) (jako |)myslíte (fakt |doopravdy |)vážně\\?(|||!)",
-		"Co (přesně|konkrétně) tím (vlastně |)(myslíte|naznačujete|chcete říct)\\?(|||!)",
-	}
-
+func FromTemplate(template string) string {
+	templates := viper.GetStringSlice(template)
 	x := rand.Intn(len(templates))
-	result, _ := reggen.Generate(templates[x], 5)
+
+	result, err := reggen.Generate(templates[x], 5)
+	if err != nil {
+		fmt.Println("Error while generating tweet from template:")
+		log.Fatal(err)
+	}
 
 	return result
 }

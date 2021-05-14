@@ -71,7 +71,7 @@ func (b Bot) Reply(tweetURL, nick, text string) {
 
 //TrollComment makes sure that the bot reacts to the tweet with some trolly comment
 func (b Bot) TrollReply(tweetURL, nick string) {
-	text := generate.StupidQuestion()
+	text := generate.FromTemplate("stupidQuestions")
 	b.EnsureCommented(tweetURL, strings.TrimLeft(nick, "@"), text)
 	return
 }
