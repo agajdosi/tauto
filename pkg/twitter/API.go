@@ -11,9 +11,7 @@ func GetTweets(username string) <-chan *twitterscraper.Result {
 	scraper.SetSearchMode(twitterscraper.SearchLatest)
 	scraper.WithReplies(true)
 
-	tweets := scraper.GetTweets(context.Background(), username, 5)
-
-	return tweets
+	return scraper.GetTweets(context.Background(), username, 5)
 }
 
 func GetUserID(username string) (string, error) {
