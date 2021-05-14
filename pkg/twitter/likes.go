@@ -8,7 +8,7 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-const likePath = `//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/div/div[2]/div/section/div/div/div[*]/div/div[1]/article/div/div/div/div[3]/div[*]/div[3]/div`
+const likePath = `//*[@aria-label="Like" or @aria-label="Liked"]`
 
 //IsLiked checks whether specified tweet is liked by the bot
 func (b Bot) IsLiked(tweetURL string) (bool, error) {

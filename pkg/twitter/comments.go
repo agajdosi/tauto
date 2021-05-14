@@ -26,8 +26,6 @@ func (b Bot) IsCommented(tweetURL, nick string) (bool, error) {
 		chromedp.Nodes(fmt.Sprintf(commentAuthorPath, nick), &replies, chromedp.AtLeast(0)),
 	)
 
-	fmt.Println(len(replies))
-
 	if len(replies) == 0 {
 		return false, err
 	}

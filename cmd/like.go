@@ -23,46 +23,39 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var urls []string
-
-var replyCmd = &cobra.Command{
-	Use:   "reply",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+var likeCmd = &cobra.Command{
+	Use:   "like",
+	Short: "Likes tweet on URL with one or more bots.",
+	Long:  `Likes tweet on URL with one or more bots.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		database.EnsureExists()
-		reply()
+		err := like()
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(replyCmd)
+	rootCmd.AddCommand(likeCmd)
 
-	replyCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the account who will reply. When left empty it will use all usernames available in the database.")
+	likeCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the bot who will like. When left empty it will use all bots available in the database.")
 
-	replyCmd.Flags().StringSliceVarP(&urls, "url", "U", nil, "Where to reply - a url of the tweet(s).")
-	replyCmd.MarkFlagRequired("url")
-
-	replyCmd.Flags().StringVarP(&tweet, "tweet", "t", "", "Tweet which will be replied.")
-	replyCmd.MarkFlagRequired("tweet")
+	likeCmd.Flags().StringSliceVarP(&urls, "url", "U", nil, "Where to like - an url of the tweet(s).")
+	likeCmd.MarkFlagRequired("url")
 }
 
-func reply() error {
+func like() error {
 	bots, err := database.GetBots(username, true)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, bot := range bots {
-		u, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 300)
+		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 300)
 
 		for _, url := range urls {
-			u.Reply(url, bot.Username, tweet)
+			b.EnsureLiked(url)
 		}
 		cancel()
 	}
