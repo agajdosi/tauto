@@ -16,10 +16,13 @@ limitations under the License.
 package cmd
 
 import (
+	"context"
+	"fmt"
 	"log"
 
 	"github.com/agajdosi/tauto/pkg/database"
 	"github.com/agajdosi/tauto/pkg/twitter"
+	twitterscraper "github.com/n0madic/twitter-scraper"
 
 	"github.com/spf13/cobra"
 )
@@ -51,11 +54,22 @@ func handleBots() {
 
 	for _, bot := range bots {
 		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 6000)
+
 		//handleNeutrals(b, neutrals)
 		//handleAllies(b, allies)
 		handleEnemies(b, enemies)
 		cancel()
 	}
+}
+
+//TBD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+func reactToTweets() error {
+	scraper := twitterscraper.New()
+	for result := range scraper.SearchTweets(context.Background(), "Pavel Tykač", 20) {
+		fmt.Println(result.Text)
+	}
+
+	return nil
 }
 
 func handleAllies(b twitter.Bot, allies []database.Other) {
