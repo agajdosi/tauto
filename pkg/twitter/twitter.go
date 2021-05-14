@@ -6,6 +6,7 @@ import (
 
 	"github.com/agajdosi/tauto/pkg/browser"
 	"github.com/chromedp/cdproto/cdp"
+	"github.com/chromedp/cdproto/input"
 	"github.com/chromedp/chromedp"
 )
 
@@ -76,7 +77,7 @@ func (b Bot) Post(text string) error {
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/header/div/div/div/div[1]/div[3]/a/div`, chromedp.BySearch),
 		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div/div[2]/div[1]/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div[2]/div`, chromedp.BySearch),
-		chromedp.KeyEvent(text),
+		input.InsertText(text),
 		chromedp.Click(`//*[@id="layers"]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/div/div/div/div[2]/div[4]/div/div/div[2]/div[4]/div/span/span`, chromedp.BySearch),
 		chromedp.Sleep(2*time.Second),
 	)

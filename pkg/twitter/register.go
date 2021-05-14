@@ -10,6 +10,7 @@ import (
 	"github.com/agajdosi/tauto/pkg/identity"
 
 	"github.com/agajdosi/tauto/pkg/browser"
+	"github.com/chromedp/cdproto/input"
 	"github.com/chromedp/chromedp"
 )
 
@@ -47,7 +48,8 @@ func Register() error {
 
 		// Screen 1 - input name, email and birth date
 		chromedp.WaitVisible(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/label/div/div[2]/div/input`, chromedp.BySearch),
-		chromedp.SendKeys(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/label/div/div[2]/div/input`, name+" "+surname, chromedp.BySearch),
+		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[2]/label/div/div[2]/div/input`, chromedp.BySearch),
+		input.InsertText(name+" "+surname),
 		chromedp.Click(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[4]/span`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div[3]/label/div/div[2]/div/input`, email, chromedp.BySearch),
 

@@ -7,6 +7,7 @@ import (
 
 	"github.com/agajdosi/tauto/pkg/generate"
 	"github.com/chromedp/cdproto/cdp"
+	"github.com/chromedp/cdproto/input"
 	"github.com/chromedp/chromedp"
 )
 
@@ -49,7 +50,8 @@ func (b Bot) EnsureCommented(tweetURL, nick, text string) {
 		chromedp.WaitVisible(replyPath, chromedp.BySearch),
 		chromedp.Click(replyPath, chromedp.BySearch),
 		chromedp.Sleep(5*time.Second),
-		chromedp.SendKeys(commentTextPath, text, chromedp.BySearch),
+		chromedp.Click(commentTextPath, chromedp.BySearch),
+		input.InsertText(text),
 		chromedp.Sleep(2*time.Second),
 		chromedp.Click(commentSubmitPath, chromedp.BySearch),
 	)
@@ -57,7 +59,7 @@ func (b Bot) EnsureCommented(tweetURL, nick, text string) {
 		fmt.Println(err)
 	}
 
-	time.Sleep(15 * time.Second)
+	time.Sleep(5 * time.Second)
 	return
 }
 
