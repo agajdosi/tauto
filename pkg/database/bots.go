@@ -17,7 +17,7 @@ type Bot struct {
 
 //AddBot adds a new bot into the database
 func AddBot(username, password string) (int, error) {
-	location, err := Location()
+	location, err := DBPath()
 	if err != nil {
 		return -1, err
 	}
@@ -55,7 +55,7 @@ func AddBot(username, password string) (int, error) {
 
 //GetBots gets login information of all active bots from the database.
 func GetBots(username string, onlyActive bool) ([]Bot, error) {
-	location, err := Location()
+	location, err := DBPath()
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +138,7 @@ func ListBots() error {
 
 //DeleteBot deletes a bot from the database.
 func DeleteBot(botName string) error {
-	location, err := Location()
+	location, err := DBPath()
 	if err != nil {
 		return err
 	}

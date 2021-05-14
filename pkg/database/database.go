@@ -11,7 +11,7 @@ import (
 
 //EnsureExists ensures that DB exists. If not, it setups a new database.
 func EnsureExists() {
-	loc, err := Location()
+	loc, err := DBPath()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -53,19 +53,26 @@ func CreateDB(loc string) error {
 	return nil
 }
 
-//Location returns a location where the DB is located.
-func Location() (string, error) {
+//DBPath returns a location where the DB is located.
+func DBPath() (string, error) {
+	configDir := ConfigDirectory()
+	location := filepath.Join(configDir, "tauto.db")
+
+	return location, nil
+}
+
+//ConfigDirectory
+func ConfigDirectory() string {
 	home, err := os.UserHomeDir()
 	if err != nil {
-		return "", err
+		log.Fatal(err)
 	}
 
 	configDir := filepath.Join(home, ".tauto")
 	err = os.MkdirAll(configDir, 0700)
 	if err != nil {
-		return "", err
+		log.Fatal(err)
 	}
 
-	location := filepath.Join(configDir, "tauto.db")
-	return location, nil
+	return configDir
 }

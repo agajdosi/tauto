@@ -3,10 +3,10 @@ package browser
 import (
 	"context"
 	"fmt"
-	"os"
 	"path/filepath"
 	"time"
 
+	"github.com/agajdosi/tauto/pkg/database"
 	"github.com/chromedp/chromedp"
 )
 
@@ -19,7 +19,7 @@ func CreateBrowser(username string, timeout int) (*context.Context, context.Canc
 		chromedp.Flag("disable-session-crashed-bubble", true),
 	)
 
-	configDir, err := Location()
+	configDir, err := BrowserProfilesPath()
 	if err != nil {
 		fmt.Println("Error finding the profiles directory.")
 	}
@@ -37,18 +37,9 @@ func CreateBrowser(username string, timeout int) (*context.Context, context.Canc
 }
 
 //Location returns a location where profiles folders are located.
-func Location() (string, error) {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return "", err
-	}
-
-	configDir := filepath.Join(home, ".tauto")
-	err = os.MkdirAll(configDir, 0700)
-	if err != nil {
-		return "", err
-	}
-
+func BrowserProfilesPath() (string, error) {
+	configDir := database.ConfigDirectory()
 	location := filepath.Join(configDir, "profiles")
+
 	return location, nil
 }

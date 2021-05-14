@@ -17,7 +17,7 @@ type Other struct {
 
 //AddOther adds a new other account (ally, neutral or enemy) into the database
 func AddOther(username, status string) (int, error) {
-	location, err := Location()
+	location, err := DBPath()
 	if err != nil {
 		return -1, err
 	}
@@ -55,7 +55,7 @@ func AddOther(username, status string) (int, error) {
 
 //GetOthers gets usernames of all active accounts of others (ally, neutral or enemy) from the database.
 func GetOthers(username, status string) ([]Other, error) {
-	location, err := Location()
+	location, err := DBPath()
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func ListOthers(status string) error {
 
 //DeleteOther deletes account of others from the database.
 func DeleteOther(otherName, status string) error {
-	location, err := Location()
+	location, err := DBPath()
 	if err != nil {
 		return err
 	}
