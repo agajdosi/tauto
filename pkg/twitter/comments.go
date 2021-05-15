@@ -64,14 +64,27 @@ func (b Bot) EnsureCommented(tweetURL, nick, text string) {
 }
 
 //Reply makes sure that the bot replied to the tweet with the text
-func (b Bot) Reply(tweetURL, nick, text string) {
-	b.EnsureCommented(tweetURL, strings.TrimLeft(nick, "@"), text)
+func (b Bot) Reply(tweetURL, text string) {
+	b.EnsureCommented(tweetURL, strings.TrimLeft(b.Username, "@"), text)
+	time.Sleep(5 * time.Second)
+
 	return
 }
 
-//TrollComment makes sure that the bot reacts to the tweet with some trolly comment
-func (b Bot) TrollReply(tweetURL, nick string) {
-	text := generate.FromTemplate("stupidQuestions")
-	b.EnsureCommented(tweetURL, strings.TrimLeft(nick, "@"), text)
+//ReplyFromTemplate makes sure that bot replied to the tweet with text generated from template
+func (b Bot) ReplyFromTemplate(tweetURL, template string) {
+	text := generate.FromTemplate(template)
+	b.EnsureCommented(tweetURL, strings.TrimLeft(b.Username, "@"), text)
+	time.Sleep(5 * time.Second)
+
+	return
+}
+
+//TrollReply makes sure that the bot reacts to the tweet with some trolly comment
+func (b Bot) TrollReply(tweetURL string) {
+	text := generate.FromTemplateByName("stupidQuestions")
+	b.EnsureCommented(tweetURL, strings.TrimLeft(b.Username, "@"), text)
+	time.Sleep(5 * time.Second)
+
 	return
 }

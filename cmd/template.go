@@ -45,5 +45,5 @@ func init() {
 	rootCmd.AddCommand(templateCmd)
 
 	templateCmd.Flags().StringVarP(&templateArg, "template", "t", "", "Template to generate.")
-	templateCmd.MarkFlagRequired("who")
+	templateCmd.MarkFlagRequired("template")
 }

@@ -62,7 +62,7 @@ func reply() error {
 		u, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 300)
 
 		for _, url := range urls {
-			u.Reply(url, bot.Username, tweet)
+			u.Reply(url, tweet)
 		}
 		cancel()
 	}

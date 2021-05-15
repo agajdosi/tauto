@@ -19,12 +19,14 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/rand"
 
 	"github.com/agajdosi/tauto/pkg/database"
 	"github.com/agajdosi/tauto/pkg/twitter"
 	twitterscraper "github.com/n0madic/twitter-scraper"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var runCmd = &cobra.Command{
@@ -55,6 +57,8 @@ func handleBots() {
 	for _, bot := range bots {
 		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 999999)
 
+		slander(b)
+		break
 		handleNeutrals(b, neutrals)
 		handleAllies(b, allies)
 		handleEnemies(b, enemies)
@@ -104,7 +108,30 @@ func handleEnemies(b twitter.Bot, enemies []database.Other) {
 				continue
 			}
 
-			b.TrollReply(tweet.PermanentURL, b.Username)
+			b.TrollReply(tweet.PermanentURL)
+		}
+	}
+}
+
+func slander(b twitter.Bot) {
+	//CHAOTIC UNMARSHAL - SHOULD BE REDESIGNED
+	targets := viper.Get("slanderTargets")
+	for _, target := range targets.([]interface{}) {
+		for name, templates := range target.(map[interface{}]interface{}) {
+			var ts []string
+			for _, template := range templates.([]interface{}) {
+				ts = append(ts, template.(string))
+			}
+
+			//Search Twitter for mentions
+			scraper := twitterscraper.New()
+			scraper.SetSearchMode(twitterscraper.SearchLatest)
+			tweets := scraper.SearchTweets(context.Background(), name.(string), 10)
+			for tweet := range tweets {
+				template := ts[rand.Intn(len(ts))]
+				b.ReplyFromTemplate(tweet.PermanentURL, template)
+			}
+
 		}
 	}
 }
