@@ -43,8 +43,8 @@ func init() {
 }
 
 func handleBots() {
-	//allies, _ := database.GetOthers("", "ally")
-	//neutrals, _ := database.GetOthers("", "neutral")
+	allies, _ := database.GetOthers("", "ally")
+	neutrals, _ := database.GetOthers("", "neutral")
 	enemies, _ := database.GetOthers("", "enemy")
 
 	bots, err := database.GetBots(username, true)
@@ -53,10 +53,10 @@ func handleBots() {
 	}
 
 	for _, bot := range bots {
-		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 6000)
+		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 999999)
 
-		//handleNeutrals(b, neutrals)
-		//handleAllies(b, allies)
+		handleNeutrals(b, neutrals)
+		handleAllies(b, allies)
 		handleEnemies(b, enemies)
 		cancel()
 	}

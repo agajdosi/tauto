@@ -35,7 +35,7 @@ var openCmd = &cobra.Command{
 		}
 
 		for _, user := range users {
-			u, cancel := twitter.NewUser(user.ID, user.Username, user.Password, 600)
+			u, cancel := twitter.NewUser(user.ID, user.Username, user.Password, 9999)
 			err = u.Open()
 			if err != nil {
 				fmt.Println(err)
