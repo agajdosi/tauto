@@ -58,7 +58,6 @@ func handleBots() {
 		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 999999)
 
 		slander(b)
-		break
 		handleNeutrals(b, neutrals)
 		handleAllies(b, allies)
 		handleEnemies(b, enemies)
@@ -126,12 +125,14 @@ func slander(b twitter.Bot) {
 			//Search Twitter for mentions
 			scraper := twitterscraper.New()
 			scraper.SetSearchMode(twitterscraper.SearchLatest)
-			tweets := scraper.SearchTweets(context.Background(), name.(string), 10)
+			tweets := scraper.SearchTweets(context.Background(), name.(string), 40)
 			for tweet := range tweets {
+				if rand.Float32() > 0.25 {
+					continue
+				}
 				template := ts[rand.Intn(len(ts))]
 				b.ReplyFromTemplate(tweet.PermanentURL, template)
 			}
-
 		}
 	}
 }

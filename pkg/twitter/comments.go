@@ -2,9 +2,13 @@ package twitter
 
 import (
 	"fmt"
+	"log"
+	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
+	"github.com/agajdosi/tauto/pkg/database"
 	"github.com/agajdosi/tauto/pkg/generate"
 	"github.com/chromedp/cdproto/cdp"
 	"github.com/chromedp/cdproto/input"
@@ -59,14 +63,14 @@ func (b Bot) EnsureCommented(tweetURL, nick, text string) {
 		fmt.Println(err)
 	}
 
-	time.Sleep(5 * time.Second)
+	b.LogCommentLink(tweetURL)
+	time.Sleep(10 * time.Second)
 	return
 }
 
 //Reply makes sure that the bot replied to the tweet with the text
 func (b Bot) Reply(tweetURL, text string) {
 	b.EnsureCommented(tweetURL, strings.TrimLeft(b.Username, "@"), text)
-	time.Sleep(5 * time.Second)
 
 	return
 }
@@ -75,7 +79,6 @@ func (b Bot) Reply(tweetURL, text string) {
 func (b Bot) ReplyFromTemplate(tweetURL, template string) {
 	text := generate.FromTemplate(template)
 	b.EnsureCommented(tweetURL, strings.TrimLeft(b.Username, "@"), text)
-	time.Sleep(5 * time.Second)
 
 	return
 }
@@ -84,7 +87,18 @@ func (b Bot) ReplyFromTemplate(tweetURL, template string) {
 func (b Bot) TrollReply(tweetURL string) {
 	text := generate.FromTemplateByName("stupidQuestions")
 	b.EnsureCommented(tweetURL, strings.TrimLeft(b.Username, "@"), text)
-	time.Sleep(5 * time.Second)
 
 	return
+}
+
+func (b Bot) LogCommentLink(tweetURL string) {
+	logPath := filepath.Join(database.ConfigDirectory(), "comment.log")
+	f, err := os.OpenFile(logPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	logger := log.New(f, "comment:", log.LstdFlags)
+	logger.Println(tweetURL)
 }
