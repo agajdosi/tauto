@@ -17,7 +17,6 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"math/rand"
 
@@ -70,16 +69,6 @@ func handleBots() {
 		handleEnemies(b, enemies)
 		cancel()
 	}
-}
-
-//TBD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-func reactToTweets() error {
-	scraper := twitterscraper.New()
-	for result := range scraper.SearchTweets(context.Background(), "Pavel Tykač", 20) {
-		fmt.Println(result.Text)
-	}
-
-	return nil
 }
 
 func handleAllies(b twitter.Bot, allies []database.Other) {
