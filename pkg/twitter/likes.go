@@ -12,11 +12,15 @@ const likePath = `//*[@aria-label="Like" or @aria-label="Liked"]`
 
 //IsLiked checks whether specified tweet is liked by the bot
 func (b Bot) IsLiked(tweetURL string) (bool, error) {
+	available, err := b.IsTweetAvailable(tweetURL)
+	if available == false {
+		return true, err
+	}
+
 	var value string
 	var ok bool
 
-	err := chromedp.Run(*b.ctx,
-		chromedp.Navigate(tweetURL),
+	err = chromedp.Run(*b.ctx,
 		chromedp.WaitVisible(likePath, chromedp.BySearch),
 		chromedp.AttributeValue(likePath, "aria-label", &value, &ok, chromedp.BySearch),
 	)

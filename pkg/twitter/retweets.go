@@ -15,11 +15,15 @@ const retweetConfirmPath = `//*[@id="layers"]/div[2]/div/div/div/div[2]/div[3]/d
 
 //IsRetweeted checks whether specified tweet is already retweeted by the bot
 func (b Bot) IsRetweeted(tweetURL string) (bool, error) {
+	available, err := b.IsTweetAvailable(tweetURL)
+	if available == false {
+		return true, err
+	}
+
 	var value string
 	var ok bool
 
-	err := chromedp.Run(*b.ctx,
-		chromedp.Navigate(tweetURL),
+	err = chromedp.Run(*b.ctx,
 		chromedp.WaitVisible(retweetPath, chromedp.BySearch),
 		chromedp.AttributeValue(retweetPath, "aria-label", &value, &ok, chromedp.BySearch),
 	)

@@ -2,6 +2,7 @@ package twitter
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/agajdosi/tauto/pkg/browser"
@@ -25,7 +26,7 @@ func NewUser(id int, username, password string, timeout int) (Bot, context.Cance
 
 //Login logs user into the Twitter
 func (b Bot) Login() error {
-	logged, err := b.isLoggedIn()
+	logged, err := b.IsLoggedIn()
 	if err != nil {
 		return err
 	}
@@ -49,7 +50,29 @@ func (b Bot) Login() error {
 	return nil
 }
 
-func (b Bot) isLoggedIn() (bool, error) {
+//IsProfileAccessible checks whether profile is not blocked
+func (b Bot) IsProfileAccessible() (bool, error) {
+	fmt.Printf("Checking accessibility of profile: %v\n", b.Username)
+	var nodes []*cdp.Node
+	err := chromedp.Run(*b.ctx,
+		chromedp.Navigate("https://twitter.com"),
+		chromedp.Sleep(10*time.Second),
+		chromedp.Nodes(`//*[@id="phone_number"]`, &nodes, chromedp.AtLeast(0)),
+	)
+	if err != nil {
+		fmt.Println("en error occured checking if phone is required")
+	}
+
+	if len(nodes) > 0 {
+		fmt.Printf("Profile %v not accessible.\n", b.Username)
+		return false, err
+	}
+
+	return true, nil
+}
+
+//IsLoggedIn checks whether the bot is logged in in the browser
+func (b Bot) IsLoggedIn() (bool, error) {
 	var nodes []*cdp.Node
 	err := chromedp.Run(*b.ctx,
 		chromedp.Navigate("https://twitter.com"),
@@ -58,6 +81,26 @@ func (b Bot) isLoggedIn() (bool, error) {
 	)
 
 	if len(nodes) == 0 {
+		return false, err
+	}
+
+	return true, err
+}
+
+//IsAvailable navigates to tweets URL and checks whether the tweet is available
+func (b Bot) IsTweetAvailable(tweetURL string) (bool, error) {
+	var nodes []*cdp.Node
+	err := chromedp.Run(*b.ctx,
+		chromedp.Navigate(tweetURL),
+		chromedp.Sleep(4*time.Second),
+		chromedp.Nodes(`//*[@href="https://help.twitter.com/rules-and-policies/notices-on-twitter"]`, &nodes, chromedp.AtLeast(0)),
+	)
+	if err != nil {
+		fmt.Println("en error occured checking if tweet is available")
+	}
+
+	if len(nodes) > 0 {
+		fmt.Println("Content not available.")
 		return false, err
 	}
 

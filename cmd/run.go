@@ -56,6 +56,13 @@ func handleBots() {
 
 	for _, bot := range bots {
 		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 999999)
+		accessible, err := b.IsProfileAccessible()
+		if err != nil {
+			log.Fatal(err)
+		}
+		if accessible == false {
+			continue
+		}
 
 		slander(b)
 		handleNeutrals(b, neutrals)
@@ -127,7 +134,7 @@ func slander(b twitter.Bot) {
 			scraper.SetSearchMode(twitterscraper.SearchLatest)
 			tweets := scraper.SearchTweets(context.Background(), name.(string), 40)
 			for tweet := range tweets {
-				if rand.Float32() > 0.25 {
+				if rand.Float32() > 10.25 {
 					continue
 				}
 				template := ts[rand.Intn(len(ts))]
@@ -136,3 +143,5 @@ func slander(b twitter.Bot) {
 		}
 	}
 }
+
+//You’re unable to view this Tweet because this account owner limits who can view their Tweets.

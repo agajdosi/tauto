@@ -24,10 +24,13 @@ const commentSubmitPath = `//*[@data-testid="tweetButton"]`
 func (b Bot) IsCommented(tweetURL, nick string) (bool, error) {
 	var replies []*cdp.Node
 
-	err := chromedp.Run(*b.ctx,
-		chromedp.Navigate(tweetURL),
+	available, err := b.IsTweetAvailable(tweetURL)
+	if available == false {
+		return true, err
+	}
+
+	err = chromedp.Run(*b.ctx,
 		chromedp.WaitVisible(replyPath, chromedp.BySearch),
-		chromedp.Sleep(2*time.Second),
 		chromedp.Nodes(fmt.Sprintf(commentAuthorPath, nick), &replies, chromedp.AtLeast(0)),
 	)
 
