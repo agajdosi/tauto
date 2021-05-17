@@ -17,7 +17,9 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/agajdosi/tauto/pkg/database"
 	"github.com/spf13/cobra"
@@ -66,7 +68,48 @@ func initConfig() {
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
+	err := viper.ReadInConfig()
+	if err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	} else { //Create the config!
+		fmt.Println(err)
+		writeDefaultConfig()
 	}
+}
+
+func writeDefaultConfig() {
+	cfgPath := filepath.Join(database.ConfigDirectory(), "config.yaml")
+	config, err := os.OpenFile(cfgPath, os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer config.Close()
+
+	config.WriteString(`universalReply: #Univerzalni odpovedi, ktere se budou generovat pod tweety kazdeho enemy
+  - "To nemyslíte (fakt |doopravdy |skutečně |)vážně, (panebože |ježiši |kristepane ||||)že ne\\?(|||!)"
+  - "Myslíte to (opravdu |skutečně |)vážně\\?(|||!)"
+  - "(To|Tohlencto|Todle|Tohle|Toto) (jako |)myslíte (fakt |doopravdy |)vážně\\?(|||!)"
+  - "Co (přesně|konkrétně) tím (vlastně |)(myslíte|naznačujete|chcete říct)\\?(|||!)"
+  - "(Nepřijde vám|Nemyslíte, že je) (to|toto|tohle) (už |již |)(poněkud|trochu|docela|až moc|až příliš) (nevhodné|nevkusné|přes čáru|proti dobrému vkusu)\\?(|||!)"
+  - "(Dost|Velmi|Zcela|Úplně|Totálně) (trapné|dětinské|hloupé|trapný|nízký)\\."
+  - "(Tuhle|Takovou) (hloupost|nízkost|zkratkovitost) bych od (vás|tebe) (teda |)(fakt |)nečekal\\."
+
+slanderTargets: #seznam pro pomlouvani
+- Pavel Tykač: #prohleda Tweety s timto retezcem
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) je (opravdový|skutečný|neskutečný|neuvěřitelný|prolhaný) (devastátor|eko-terorista|ničitel (krajiny|naší země))\\." #a odpovi temito texty
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) (naprosto |)(cynicky|sobecky|bezohledně) (devastuje|ruinuje) (českou krajinu|naši zemi|naši budoucnost|budoucnost našich dětí)\\."
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) (smrdí|páchne|zavání) do oken (celé ČR|celé České republice|celému Česku)\\. Je to (hanba|odporné|nechutné|sobecké|tupé|sobec|cynik|zlý člověk)(\\.|\\.\\.\\.)"
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) by měl zkusit (čuchat|dýchat|dejchat|inhalovat) ten (jeho (jedovatej | toxickej |)smrad|(jedovatej | toxickej |)smrad jeho byznysu|(jedovatej |toxickej |)smrad z jeho elektráren)\\."
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) jede (svůj byznys |)(doslova |)přes mrtvoly\\. (Měl by se stydět|Měl by přestat|Kéž by přestal|Mohl by přestat|Měl by s tím skončit|(Páchne|Smrdí) nám (všem |)(přímo |)do oken)\\."
+  - "(Tykačovi|Pavlu Tykačovi) (nevěřím ani slovo|nic nevěřím|nevěřte|nevěřte ani slovo)\\. Je to (zákeřný|neskutečný|rafinovaný) (manipulátor|cynik|sobec|lhář), (co|který|kterej) (lakuje věci|překrucuje věci) (nazeleno|narůžovo)\\."
+- Daniel Křetínský: #prohleda Tweety s timto retezcem
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) je (opravdový|skutečný|neskutečný|neuvěřitelný|prolhaný) (devastátor|eko-terorista|ničitel (krajiny|naší země))\\." #a odpovi temito texty
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) (naprosto |)(cynicky|sobecky|bezohledně) (devastuje|ruinuje) (českou krajinu|naši zemi|naši budoucnost|budoucnost našich dětí)\\."
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) (smrdí|páchne|zavání) do oken (celé ČR|celé České republice|celému Česku)\\. Je to (hanba|odporné|nechutné|sobecké|tupé|sobec|cynik|zlý člověk)(\\.|\\.\\.\\.)"
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) by měl zkusit (čuchat|dýchat|dejchat|inhalovat) ten (jeho (jedovatej | toxickej |)smrad|(jedovatej | toxickej |)smrad jeho byznysu|(jedovatej |toxickej |)smrad z jeho elektráren)\\."
+  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) jede (svůj byznys |)(doslova |)přes mrtvoly\\. (Měl by se stydět|Měl by přestat|Kéž by přestal|Mohl by přestat|Měl by s tím skončit|(Páchne|Smrdí) nám (všem |)(přímo |)do oken)\\."
+  - "(Křetínskému|Křetínskýmu) (nevěřím ani slovo|nic nevěřím|nevěřte|nevěřte ani slovo)\\. Je to (zákeřný|neskutečný|rafinovaný) (manipulátor|cynik|sobec|lhář), (co|který|kterej) (lakuje věci|překrucuje věci) (nazeleno|narůžovo)\\."
+`)
+
+	fmt.Printf(">>> Created default config at: %v !\n\n", cfgPath)
 }
