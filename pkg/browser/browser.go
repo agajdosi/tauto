@@ -17,6 +17,9 @@ func CreateBrowser(username string, timeout int) (*context.Context, context.Canc
 		chromedp.Flag("disable-extensions", false),
 		chromedp.Flag("headless", false),
 		chromedp.Flag("disable-session-crashed-bubble", true),
+		chromedp.Flag("disable-infobars", true),
+		//chromedp.Flag("kiosk", true),
+		chromedp.UserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36"),
 	)
 
 	configDir, err := BrowserProfilesPath()
