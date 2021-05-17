@@ -15,7 +15,8 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-const commentAuthorPath = `//*[@href="/%v" and not(@aria-label="Profile")]`
+//const commentAuthorPath = `//*[@href="/%v" and not(@aria-label="Profile")]`
+const commentAuthorPath = `//*[@data-testid="tweet"]/div[1]/div/div/a[@href="/%v"]`
 const replyPath = `//*[@aria-label="Reply"]`
 const commentTextPath = `//*[@aria-label="Tweet text"]`
 const commentSubmitPath = `//*[@data-testid="tweetButton"]`
@@ -35,9 +36,11 @@ func (b Bot) IsCommented(tweetURL, nick string) (bool, error) {
 	)
 
 	if len(replies) == 0 {
+		fmt.Println("tweet is not commented")
 		return false, err
 	}
 
+	fmt.Println("tweet already commented")
 	return true, err
 }
 

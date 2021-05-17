@@ -52,7 +52,7 @@ func (b Bot) Login() error {
 
 //IsProfileAccessible checks whether profile is not blocked
 func (b Bot) IsProfileAccessible() (bool, error) {
-	fmt.Printf("Checking accessibility of profile: %v\n", b.Username)
+	fmt.Printf("Checking accessibility of profile: %v", b.Username)
 	var nodes []*cdp.Node
 	err := chromedp.Run(*b.ctx,
 		chromedp.Navigate("https://twitter.com"),
@@ -60,14 +60,15 @@ func (b Bot) IsProfileAccessible() (bool, error) {
 		chromedp.Nodes(`//*[@id="phone_number"]`, &nodes, chromedp.AtLeast(0)),
 	)
 	if err != nil {
-		fmt.Println("en error occured checking if phone is required")
+		fmt.Println(" ...en error occured checking if phone is required.")
 	}
 
 	if len(nodes) > 0 {
-		fmt.Printf("Profile %v not accessible.\n", b.Username)
+		fmt.Println(" ...profile not accessible.")
 		return false, err
 	}
 
+	fmt.Println(" ...profile OK.")
 	return true, nil
 }
 
