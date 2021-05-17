@@ -24,7 +24,7 @@ import (
 
 var enemyCmd = &cobra.Command{
 	Use:   "enemy",
-	Short: "Manipulates available enemy accounts.",
+	Short: "Manipulates available enemy accounts. Bots hates them.",
 	Long:  `Manipulates available enemy accounts. Enemies are Twitter accounts which you want want to fight. Their posts gonna be retweeted or commented negatively.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()

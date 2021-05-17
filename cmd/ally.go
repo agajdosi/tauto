@@ -24,7 +24,7 @@ import (
 
 var allyCmd = &cobra.Command{
 	Use:   "ally",
-	Short: "Manipulates allied accounts.",
+	Short: "Manipulates allied accounts. Bots support them.",
 	Long:  `Manipulates allied accounts. Allies are Twitter accounts which you want want to support. Their posts gonna be retweeted, liked or commented positively.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()

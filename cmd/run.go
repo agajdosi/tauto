@@ -31,8 +31,8 @@ import (
 
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Run the Tauto: love allies, checkout neutrals, troll enemies.",
-	Long:  `Run the Tauto: love allies, checkout neutrals, troll enemies.`,
+	Short: "Run the Tauto: love allies, checkout neutrals, troll enemies. This is the ultimate command.",
+	Long:  `Run the Tauto: love allies, checkout neutrals, troll enemies. This is the ultimate command.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		database.EnsureExists()
 		handleBots()

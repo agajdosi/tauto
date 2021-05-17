@@ -26,13 +26,8 @@ var templateArg string
 
 var templateCmd = &cobra.Command{
 	Use:   "template",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Use this command to test your comment template before adding it into the config file.",
+	Long:  `Use this command to test your comment template before adding it into the config file.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		for i := 0; i < 20; i++ {
 			tweet := generate.FromTemplate(templateArg)
@@ -44,6 +39,6 @@ to quickly create a Cobra application.`,
 func init() {
 	rootCmd.AddCommand(templateCmd)
 
-	templateCmd.Flags().StringVarP(&templateArg, "template", "t", "", "Template to generate.")
+	templateCmd.Flags().StringVarP(&templateArg, "template", "t", "", "Template to test. Will generate 30 variants of the template.")
 	templateCmd.MarkFlagRequired("template")
 }

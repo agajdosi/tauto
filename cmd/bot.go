@@ -24,7 +24,7 @@ import (
 
 var botCmd = &cobra.Command{
 	Use:   "bot",
-	Short: "Manipulates bot accounts.",
+	Short: "Manipulates bot accounts. Bots are our profiles. We use them to post/like on Twitter.",
 	Long:  `Manipulates bot accounts. Bots are our Twitter accounts which we automatically use to spread negative or positive messages.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()

@@ -24,7 +24,7 @@ import (
 
 var neutralCmd = &cobra.Command{
 	Use:   "neutral",
-	Short: "Manipulates available neutral accounts.",
+	Short: "Manipulates available neutral accounts. Bots use them to look normal.",
 	Long:  `Manipulates available neutral accounts. Neutrals are Twitter accounts which we take as neutral sources of information - like news sources. Their posts gonna be sometimes retweeted, liked or commented. Its purpose is to fake that our bots are normal persons.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
