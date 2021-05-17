@@ -134,7 +134,7 @@ func slander(b twitter.Bot) {
 			scraper.SetSearchMode(twitterscraper.SearchLatest)
 			tweets := scraper.SearchTweets(context.Background(), name.(string), 40)
 			for tweet := range tweets {
-				if rand.Float32() > 10.25 {
+				if rand.Float32() > 0.25 {
 					continue
 				}
 				template := ts[rand.Intn(len(ts))]
