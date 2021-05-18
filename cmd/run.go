@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"math/rand"
 
@@ -54,7 +55,12 @@ func handleBots() {
 	}
 
 	for _, bot := range bots {
-		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 999999)
+		b, cancel, err := twitter.NewUser(bot.ID, bot.Username, bot.Password, 999999)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+
 		accessible, err := b.IsProfileAccessible()
 		if err != nil {
 			log.Fatal(err)

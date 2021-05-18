@@ -18,10 +18,18 @@ type Bot struct {
 }
 
 // NewUser creates a new instance of user struct
-func NewUser(id int, username, password string, timeout int) (Bot, context.CancelFunc) {
+func NewUser(id int, username, password string, timeout int) (Bot, context.CancelFunc, error) {
 	ctx, cancel := browser.CreateBrowser(username, timeout)
+	b := Bot{username, password, ctx}
+	fmt.Printf("Loging in bot: %v", b.Username)
+	err := b.Login()
+	if err != nil {
+		fmt.Printf(" - login error: %v\n", err)
+	} else {
+		fmt.Println(" - OK")
+	}
 
-	return Bot{username, password, ctx}, cancel
+	return b, cancel, err
 }
 
 //Login logs user into the Twitter
@@ -60,15 +68,15 @@ func (b Bot) IsProfileAccessible() (bool, error) {
 		chromedp.Nodes(`//*[@id="phone_number"]`, &nodes, chromedp.AtLeast(0)),
 	)
 	if err != nil {
-		fmt.Println(" ...en error occured checking if phone is required.")
+		fmt.Println(" - an error occured checking if phone is required.")
 	}
 
 	if len(nodes) > 0 {
-		fmt.Println(" ...profile not accessible.")
+		fmt.Println(" - profile not accessible.")
 		return false, err
 	}
 
-	fmt.Println(" ...profile OK.")
+	fmt.Println(" - OK")
 	return true, nil
 }
 

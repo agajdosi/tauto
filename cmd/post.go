@@ -48,14 +48,18 @@ func init() {
 }
 
 func post() error {
-	users, err := database.GetBots(username, true)
+	bots, err := database.GetBots(username, true)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, user := range users {
-		u, cancel := twitter.NewUser(user.ID, user.Username, user.Password, 300)
-		err = u.Post(tweet)
+	for _, bot := range bots {
+		b, cancel, err := twitter.NewUser(bot.ID, bot.Username, bot.Password, 300)
+		if err != nil {
+			return err
+		}
+
+		err = b.Post(tweet)
 		if err != nil {
 			fmt.Println(err)
 		}

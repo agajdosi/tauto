@@ -52,7 +52,10 @@ func like() error {
 	}
 
 	for _, bot := range bots {
-		b, cancel := twitter.NewUser(bot.ID, bot.Username, bot.Password, 300)
+		b, cancel, err := twitter.NewUser(bot.ID, bot.Username, bot.Password, 300)
+		if err != nil {
+			return err
+		}
 
 		for _, url := range urls {
 			b.EnsureLiked(url)

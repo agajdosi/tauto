@@ -42,12 +42,12 @@ func (b Bot) IsRetweeted(tweetURL string) (bool, error) {
 
 //EnsureRetweeted unsures that specified tweet is retweeted by the bot
 func (b Bot) EnsureRetweeted(tweetURL string) {
-	liked, err := b.IsRetweeted(tweetURL)
+	retweeted, err := b.IsRetweeted(tweetURL)
 	if err != nil {
 		fmt.Println(err)
 	}
 	time.Sleep(10 * time.Second)
-	if liked == true {
+	if retweeted == true {
 		return
 	}
 

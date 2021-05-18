@@ -47,15 +47,19 @@ func init() {
 }
 
 func follow() error {
-	users, err := database.GetBots(username, true)
+	bots, err := database.GetBots(username, true)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, user := range users {
-		u, cancel := twitter.NewUser(user.ID, user.Username, user.Password, 300)
+	for _, bot := range bots {
+		b, cancel, err := twitter.NewUser(bot.ID, bot.Username, bot.Password, 300)
+		if err != nil {
+			return err
+		}
+
 		for _, toFollow := range who {
-			err = u.EnsureFollowed(toFollow)
+			err = b.EnsureFollowed(toFollow)
 			if err != nil {
 				fmt.Println(err)
 			}

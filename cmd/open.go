@@ -29,14 +29,19 @@ var openCmd = &cobra.Command{
 	Short: "Opens single profile and leaves it for manual tweaks.",
 	Long:  `Opens single profile and leaves it for manual tweaks.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		users, err := database.GetBots(username, false)
+		bots, err := database.GetBots(username, false)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		for _, user := range users {
-			u, cancel := twitter.NewUser(user.ID, user.Username, user.Password, 9999)
-			err = u.Open()
+		for _, bot := range bots {
+			b, cancel, err := twitter.NewUser(bot.ID, bot.Username, bot.Password, 9999)
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+
+			err = b.Open()
 			if err != nil {
 				fmt.Println(err)
 			}
