@@ -74,6 +74,10 @@ func initConfig() {
 	} else { //Create the config!
 		fmt.Println(err)
 		writeDefaultConfig()
+		err = viper.ReadInConfig()
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 
@@ -95,20 +99,26 @@ func writeDefaultConfig() {
   - "(Tuhle|Takovou) (hloupost|nízkost|zkratkovitost) bych od (vás|tebe) (teda |)(fakt |)nečekal\\."
 
 slanderTargets: #seznam pro pomlouvani
-- Pavel Tykač: #prohleda Tweety s timto retezcem
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) je (opravdový|skutečný|neskutečný|neuvěřitelný|prolhaný) (devastátor|eko-terorista|ničitel (krajiny|naší země))\\." #a odpovi temito texty
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) (naprosto |)(cynicky|sobecky|bezohledně) (devastuje|ruinuje) (českou krajinu|naši zemi|naši budoucnost|budoucnost našich dětí)\\."
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) (smrdí|páchne|zavání) do oken (celé ČR|celé České republice|celému Česku)\\. Je to (hanba|odporné|nechutné|sobecké|tupé|sobec|cynik|zlý člověk)(\\.|\\.\\.\\.)"
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) by měl zkusit (čuchat|dýchat|dejchat|inhalovat) ten (jeho (jedovatej | toxickej |)smrad|(jedovatej | toxickej |)smrad jeho byznysu|(jedovatej |toxickej |)smrad z jeho elektráren)\\."
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(P\\. Tykač|Tykač) jede (svůj byznys |)(doslova |)přes mrtvoly\\. (Měl by se stydět|Měl by přestat|Kéž by přestal|Mohl by přestat|Měl by s tím skončit|(Páchne|Smrdí) nám (všem |)(přímo |)do oken)\\."
-  - "(Tykačovi|Pavlu Tykačovi) (nevěřím ani slovo|nic nevěřím|nevěřte|nevěřte ani slovo)\\. Je to (zákeřný|neskutečný|rafinovaný) (manipulátor|cynik|sobec|lhář), (co|který|kterej) (lakuje věci|překrucuje věci) (nazeleno|narůžovo)\\."
-- Daniel Křetínský: #prohleda Tweety s timto retezcem
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) je (opravdový|skutečný|neskutečný|neuvěřitelný|prolhaný) (devastátor|eko-terorista|ničitel (krajiny|naší země))\\." #a odpovi temito texty
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) (naprosto |)(cynicky|sobecky|bezohledně) (devastuje|ruinuje) (českou krajinu|naši zemi|naši budoucnost|budoucnost našich dětí)\\."
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) (smrdí|páchne|zavání) do oken (celé ČR|celé České republice|celému Česku)\\. Je to (hanba|odporné|nechutné|sobecké|tupé|sobec|cynik|zlý člověk)(\\.|\\.\\.\\.)"
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) by měl zkusit (čuchat|dýchat|dejchat|inhalovat) ten (jeho (jedovatej | toxickej |)smrad|(jedovatej | toxickej |)smrad jeho byznysu|(jedovatej |toxickej |)smrad z jeho elektráren)\\."
-  - "(Tenhle pan |Tenhle |Tento pan |Tento |Pan |)(Dan Křetínský|D\\. Křetínský|Křetínský) jede (svůj byznys |)(doslova |)přes mrtvoly\\. (Měl by se stydět|Měl by přestat|Kéž by přestal|Mohl by přestat|Měl by s tím skončit|(Páchne|Smrdí) nám (všem |)(přímo |)do oken)\\."
-  - "(Křetínskému|Křetínskýmu) (nevěřím ani slovo|nic nevěřím|nevěřte|nevěřte ani slovo)\\. Je to (zákeřný|neskutečný|rafinovaný) (manipulátor|cynik|sobec|lhář), (co|který|kterej) (lakuje věci|překrucuje věci) (nazeleno|narůžovo)\\."
+
+- Lubomír Volný:
+  - "(Pan Volný|Poslanec Volný|Volný) by si (měl|mohl) (už konečně|konečně) (nasadit|dát) (roušku|respirátor) (na tvář|na obličej|přes pusu|až přes nos)\\. (Daleko|Mnohem|Mnohokrát) (lépe|líp|lehčeji) se na (něj|něho) (pak|potom) (kouká|dívá)\\."
+  - "(Pan Volný|Poslanec Volný|Volný) je (takový |tak velký|tak obrovský|tak strašlivý) (jouda|prosťáček|brouk Pytlík), že (dokonce |)ani (u Okamurovy|v Okamurově) SPD (jej|ho) (již|už) (nechtějí|nechtěli)\\."
+  - "(Z|U) (některých |určitých |jistých |mnoha |většiny )(názorů|prohlášení|tweetů|myšlenek) (pana Volného|poslance Volného|Volného|Lubomíra Volného) (mám pocit|nabývám dojmu|je cítit|je tušit), že je (tak trochu |tak nějak |malinko )(neomarxista|marxista|bolševik)\\."
+
+- Jaroslav Foldyna:
+  - "(Myšlenky|Ideje|Přeludy|Fabulace) (Jaroslava Foldyny|Foldyny|pana Foldyny) se (opravdu|)mohly (zrodit|vytvořit) (jen|ledatak|pouze) v (zapařených|zpocených) (kožených|motorkářských) (kalhotech|kalhotách)\\."
+  - "Zajímalo by mne, co si (pan Foldyna|Foldyna|Jarda Foldyna) kompenzuje svými (homofobními|xenofobními|proruskými|hloupými|primitivními) (názory|řečmi|výkřiky) asi tak (léčí|kompenzuje|vynahrazuje)\\."
+  - "(Pan Foldyna|Foldyna|Jarda Foldyna) je (pro smích|k smíchu|k pláči|k politování|zralý na léčby|zralý na prášky|odstrašující případ|panoptikem hlouposti|závanem minulosti)\\."
+
+- Tomáš Vandas:
+  - "(Názory|Ideje|Iluze|Bludy|Sliby|Výkřiky|Výtvory|Proklamace|Činy) (pana Vandase|Vandase|Tomáše Vandase) jsou (plodem|výplodem|výsledkem|koncem|důsledkem|ovocem) (choré|nemocné|upadající|zahnědlé) (mysli|hlavy|duše|psychiky)\\."
+  - "(Vandasovi|Tomáši Vandasovi|Panu Vandasovi|Tomu Vandasovi) (nevěřím) ani (čárku|slovo|větu|noc mezi očima|hlásku|písmenko|ň), je (to |)(oportunistický|prolhaný|ulhaný|vypočítavý|ziskuchtivý) (manipulátor|lhář|zlodějíček|prosťáček)\\."
+  - "(Pan Vandas|Vandas|Tenhle Vandas) je (symbolem|příkladem|legendou) (neúspěchu|selhání|neschopnosti|)\\. (Už by|Už dávno|Dávno|Již před lety|Ještě před narozením|Už včera|Předevčírem|Minulý rok) to měl (všechno |)(zabalit|vzdát|ukončit)\\."
+
+- Tomio Okamura: #prohleda Tweety s timto retezcem
+  - "(Pan Okamura|Okamura|Tomio) (pouze |akorát |)(vykrádá|okrádá|zneužívá|využívá|finančně vysává) vlastence\\. SPD (je pro něj|pro něj je|je pro něho|pro něho je) (jen |)(dojnou krávou|podnikatelským záměrem|zdrojem zisku|zdrojem peněz)\\."
+  - "(Pan Okamura|Okamura|Tomio) (oblbnul|zblbnul|zmanipuloval) (prvního českého teroristu|prvního teroristu v ČR) (pana|důchodce) Baldu\\."
+  - "(Pan Okamura|Okamura|Tomio) (rozkradl|vykradl|vytuneloval|vysál|finančně zneužil) Úsvit přímé demokraci a (nyní|teď|dnes|v dnešní době) (vysává|profituje na|zneužívá|tuneluje) @SPD_oficialni \\."
 `)
 
 	fmt.Printf(">>> Created default config at: %v !\n\n", cfgPath)
