@@ -104,16 +104,20 @@ slanderTargets: #seznam pro pomlouvani
   - "(Pan Volný|Poslanec Volný|Volný) by si (měl|mohl) (už konečně|konečně) (nasadit|dát) (roušku|respirátor) (na tvář|na obličej|přes pusu|až přes nos)\\. (Daleko|Mnohem|Mnohokrát) (lépe|líp|lehčeji) se na (něj|něho) (pak|potom) (kouká|dívá)\\."
   - "(Pan Volný|Poslanec Volný|Volný) je (takový |tak velký|tak obrovský|tak strašlivý) (jouda|prosťáček|brouk Pytlík), že (dokonce |)ani (u Okamurovy|v Okamurově) SPD (jej|ho) (již|už) (nechtějí|nechtěli)\\."
   - "(Z|U) (některých |určitých |jistých |mnoha |většiny )(názorů|prohlášení|tweetů|myšlenek) (pana Volného|poslance Volného|Volného|Lubomíra Volného) (mám pocit|nabývám dojmu|je cítit|je tušit), že je (tak trochu |tak nějak |malinko )(neomarxista|marxista|bolševik)\\."
+  - "(Pan magistr Volný|Magistr Volný|Pan Volný|Poslanec Volný|Volný) je (cynický|sprostý|oportunistický|chtivý|obyčejný|smutný|parazitický) (obchodník s chudobou|obchodníček s chudobou|majitel shnilé ubytovny|majitel rozpadlé ubytovny|provozovatel ubytovny), (který|jenž) (pouze|jenom|prachsprostě) (předstírá|finguje|hraje|lže), že je (ochránce|advokát|obhájce|zastánce|poslanec) (obyčejných|běžných|chudých) (lidí|občanů|obyvatel)\\."
+  - "(Panu magistru Volnému|Magistrovi Volnému|Panu Volnému|Poslanci Volnému|Volnému) jde o (peníze|krk|křeslo|koryto|zisk|plat poslance|moc|mandát) a (tak|proto|z toho důvodu|tedy proto) (lže|manipuluje|ze sebe dělá blbce|říká, co lidi chtějí slyšet|hraje divadlo|říká hlouposti|křičí jako malé dítě|píše nesmysly|píše hlouposti|piští jak děcko)\\." 
 
 - Jaroslav Foldyna:
   - "(Myšlenky|Ideje|Přeludy|Fabulace) (Jaroslava Foldyny|Foldyny|pana Foldyny) se (opravdu|)mohly (zrodit|vytvořit) (jen|ledatak|pouze) v (zapařených|zpocených) (kožených|motorkářských) (kalhotech|kalhotách)\\."
-  - "Zajímalo by mne, co si (pan Foldyna|Foldyna|Jarda Foldyna) kompenzuje svými (homofobními|xenofobními|proruskými|hloupými|primitivními) (názory|řečmi|výkřiky) asi tak (léčí|kompenzuje|vynahrazuje)\\."
+  - "(Zajímalo by mne|Zajímá mě), co si (pan Foldyna|Foldyna|Jarda Foldyna) kompenzuje svými (homofobními|xenofobními|proruskými|hloupými|primitivními) (názory|řečmi|výkřiky) asi tak (léčí|kompenzuje|vynahrazuje)\\."
   - "(Pan Foldyna|Foldyna|Jarda Foldyna) je (pro smích|k smíchu|k pláči|k politování|zralý na léčby|zralý na prášky|odstrašující případ|panoptikem hlouposti|závanem minulosti)\\."
+  - "(Je vidět, že |Je patrné, že |Je jasné, že |Jasně, |Nj, |Nojo, |)(Foldynovi|Jaroslavu Foldynovi|Panu Foldynovi) se (holt |patrně |)v (kožených|uplých|těsných|moto) (kalhotech|kalhotách) (snad |)(fakt |doopravdy )(zapařil|zpotil|zesmrádl) mozek\\."
 
 - Tomáš Vandas:
   - "(Názory|Ideje|Iluze|Bludy|Sliby|Výkřiky|Výtvory|Proklamace|Činy) (pana Vandase|Vandase|Tomáše Vandase) jsou (plodem|výplodem|výsledkem|koncem|důsledkem|ovocem) (choré|nemocné|upadající|zahnědlé) (mysli|hlavy|duše|psychiky)\\."
   - "(Vandasovi|Tomáši Vandasovi|Panu Vandasovi|Tomu Vandasovi) (nevěřím) ani (čárku|slovo|větu|noc mezi očima|hlásku|písmenko|ň), je (to |)(oportunistický|prolhaný|ulhaný|vypočítavý|ziskuchtivý) (manipulátor|lhář|zlodějíček|prosťáček)\\."
   - "(Pan Vandas|Vandas|Tenhle Vandas) je (symbolem|příkladem|legendou) (neúspěchu|selhání|neschopnosti|)\\. (Už by|Už dávno|Dávno|Již před lety|Ještě před narozením|Už včera|Předevčírem|Minulý rok) to měl (všechno |)(zabalit|vzdát|ukončit)\\."
+  - "(Popravdě, |Upřímně, |Narovinu - |Přiznejme si, že |Musím říct, že |Teda |||)(Vandasovi|Tomáši Vandasovi|Panu Vandasovi|Tomu Vandasovi) to (na některých |na všech |na úplně všech |) (fotkách|fotografiích|videech|sjezdech) (fakt|doopravdy|velmi) sluší\\. Je (to |)(nádherný|pěkný|rozkošný|půvabný|přitažlivý|elegantní|sexy) (muž|kluk|chlap|samec|vlastenec|Čech)\\."
 
 - Tomio Okamura: #prohleda Tweety s timto retezcem
   - "(Pan Okamura|Okamura|Tomio) (pouze |akorát |)(vykrádá|okrádá|zneužívá|využívá|finančně vysává) vlastence\\. SPD (je pro něj|pro něj je|je pro něho|pro něho je) (jen |)(dojnou krávou|podnikatelským záměrem|zdrojem zisku|zdrojem peněz)\\."
