@@ -48,11 +48,14 @@ func (b Bot) Login() error {
 		//username
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[1]/label/div/div[2]/div/input`, b.Username, chromedp.BySearch),
+		chromedp.Sleep(5*time.Second),
 		//password
 		chromedp.WaitVisible(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input`, chromedp.BySearch),
 		chromedp.SendKeys(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[2]/label/div/div[2]/div/input`, b.password, chromedp.BySearch),
+		chromedp.Sleep(5*time.Second),
 		//login button
 		chromedp.Click(`//*[@id="react-root"]/div/div/div[2]/main/div/div/div[2]/form/div/div[3]/div/div`, chromedp.BySearch),
+		chromedp.Sleep(5*time.Second),
 	)
 
 	return nil
