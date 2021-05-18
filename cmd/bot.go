@@ -57,6 +57,32 @@ var botRemoveCmd = &cobra.Command{
 	},
 }
 
+var botEnableCmd = &cobra.Command{
+	Use:   "enable",
+	Short: "Enables bot account in the database.",
+	Long:  `Enables bot account in the database.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		database.EnsureExists()
+		err := database.EnableBot(username)
+		if err != nil {
+			log.Fatal(err)
+		}
+	},
+}
+
+var botDisableCmd = &cobra.Command{
+	Use:   "disable",
+	Short: "Disables bot account in the database.",
+	Long:  `Disables bot account in the database.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		database.EnsureExists()
+		err := database.DisableBot(username)
+		if err != nil {
+			log.Fatal(err)
+		}
+	},
+}
+
 var botListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Lists all bot accounts in the database.",
@@ -71,10 +97,12 @@ var botListCmd = &cobra.Command{
 }
 
 func init() {
-	botCmd.AddCommand(botAddCmd)
-	botCmd.AddCommand(botListCmd)
-	botCmd.AddCommand(botRemoveCmd)
 	rootCmd.AddCommand(botCmd)
+	botCmd.AddCommand(botAddCmd)
+	botCmd.AddCommand(botRemoveCmd)
+	botCmd.AddCommand(botEnableCmd)
+	botCmd.AddCommand(botDisableCmd)
+	botCmd.AddCommand(botListCmd)
 
 	botAddCmd.Flags().StringVarP(&username, "username", "u", "", "Username to be used to log in the bot account.")
 	botAddCmd.MarkFlagRequired("username")
@@ -83,4 +111,10 @@ func init() {
 
 	botRemoveCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the bot account which is going to be removed.")
 	botRemoveCmd.MarkFlagRequired("username")
+
+	botEnableCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the bot account which is going to be enabled.")
+	botEnableCmd.MarkFlagRequired("username")
+
+	botDisableCmd.Flags().StringVarP(&username, "username", "u", "", "Username of the bot account which is going to be disabled.")
+	botDisableCmd.MarkFlagRequired("username")
 }

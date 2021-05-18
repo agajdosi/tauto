@@ -161,3 +161,55 @@ func DeleteBot(botName string) error {
 
 	return err
 }
+
+//EnableBot deletes a bot from the database.
+func EnableBot(botName string) error {
+	location, err := DBPath()
+	if err != nil {
+		return err
+	}
+
+	db, err := sql.Open("sqlite3", location)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare("UPDATE bots SET active = ? WHERE username = ?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(1, botName)
+	enabled, _ := result.RowsAffected()
+	fmt.Printf("Bots enabled: %v\n", enabled)
+
+	return err
+}
+
+//DisableBot deletes a bot from the database.
+func DisableBot(botName string) error {
+	location, err := DBPath()
+	if err != nil {
+		return err
+	}
+
+	db, err := sql.Open("sqlite3", location)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	stmt, err := db.Prepare("UPDATE bots SET active = ? WHERE username = ?")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(0, botName)
+	enabled, _ := result.RowsAffected()
+	fmt.Printf("Bots disabled: %v\n", enabled)
+
+	return err
+}
