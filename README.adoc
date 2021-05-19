@@ -7,14 +7,38 @@ Tauto is thus capable of interactions which are not available through Twitter AP
 
 Tauto is currently capable of following interactions:
 
-* liking
-* retweets
+* automatic/mass liking and retweeting of specified accounts
+* 
+* mass posting/ specified account
+* semi-automatic creation of accounts
+* automatic/mass replies to pre-defined strings (trolling on topics/persons)
 
-## Installation
+## Getting Started with Tauto
 
-Coming soon.
+### Installation
 
-## How to use
+1. Get the latest version of tauto from: https://github.com/agajdosi/tauto/releases/latest
+2. Download the executable binary:
+- tauto.exe for Windows
+- tauto-mac for Mac
+- tauto-linux for Linux
+3. put the binary into your home directory (C:/Users/Me, /home/me) or put it somewhere in your PATH
+4. open PowerShell or terminal and go to your home directory
+5. run command: `./tauto help` to verify that tauto is successfully installed
+
+### Quickstart
+
+1. First you need to add a bot, use command: `tauto bot add --username botusrnme --password myscrtpswd`
+2. Then you can run command `tauto run` to execute automatic trolling
+
+## Tweaking
+
+If you want to tweak templates, plese open file `yaml.config`, tauto informs you about its location during each command execution.
+
+## Complex usage
+
+If you want to get the maximum of Tauto, please read the documenation below and also take a look on help of Tauto in termina: `tauto help` or  `tauto anyCommand --help`.
+In case of any trouble, drop me an email: andreas.gajdosik@gmail.com or create an issue here on Github. 
 
 ### Bots
 
