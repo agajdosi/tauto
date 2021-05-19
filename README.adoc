@@ -7,11 +7,14 @@ Tauto is thus capable of interactions which are not available through Twitter AP
 
 Tauto is currently capable of following interactions:
 
-* automatic/mass liking and retweeting of specified accounts
-* 
-* mass posting/ specified account
+* automatic liking and retweeting of allied accounts
+* automatic commenting (trolling) of enemy accounts
+* mass posting/liking/following specified account
+* serial mass opening of bot accounts
 * semi-automatic creation of accounts
-* automatic/mass replies to pre-defined strings (trolling on topics/persons)
+* automatic replies to pre-defined strings (trolling on topics/persons)
+
+And much more is coming...
 
 ## Getting Started with Tauto
 
@@ -25,6 +28,8 @@ Tauto is currently capable of following interactions:
 3. put the binary into your home directory (C:/Users/Me, /home/me) or put it somewhere in your PATH
 4. open PowerShell or terminal and go to your home directory
 5. run command: `./tauto help` to verify that tauto is successfully installed
+
+Please note that you need Google Chrome or Chromium browser installed and present on PATH in your computer. 
 
 ### Quickstart
 
