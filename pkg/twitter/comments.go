@@ -55,7 +55,7 @@ func (b Bot) EnsureCommented(tweetURL, nick, text string) {
 		return
 	}
 
-	time.Sleep(5 * time.Second)
+	time.Sleep(10 * time.Second)
 	err = chromedp.Run(*b.ctx,
 		chromedp.WaitVisible(replyPath, chromedp.BySearch),
 		chromedp.Click(replyPath, chromedp.BySearch),
